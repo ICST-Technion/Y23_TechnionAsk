@@ -1,2 +1,2 @@
-# SocialCreditSystem
-A Technion CS Software-Project "Social Credit System" for the CS Faculty
+# TechnionAsk
+A Technion CS Software-Project "TechnionAsk" for the CS Faculty
