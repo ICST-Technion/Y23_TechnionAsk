@@ -39,6 +39,10 @@ export default function App() {
       <TouchableOpacity>
         <Text style={styles.forgotpass_button}>Forgot Password?</Text>
       </TouchableOpacity>
+
+      <TouchableOpacity style={styles.sign_in_button}>
+        <Text style={styles.loginText}>Sign in</Text>
+      </TouchableOpacity>
  
       <TouchableOpacity style={styles.login_button}>
         <Text style={styles.loginText}>LOGIN</Text>
@@ -82,6 +86,15 @@ const styles = StyleSheet.create({
   },
  
   login_button: {
+    width: "80%",
+    borderRadius: 25,
+    height: 50,
+    alignItems: "center",
+    justifyContent: "center",
+    marginTop: 40,
+    backgroundColor: "#412AD4",
+  },
+  sign_in_button:{
     width: "80%",
     borderRadius: 25,
     height: 50,
