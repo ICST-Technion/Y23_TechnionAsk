@@ -52,11 +52,11 @@ const LoginPage = props => {
       </TouchableOpacity>
 
       <TouchableOpacity style={styles.login_button} onPress={goToSearchPage}>
-        <Text style={styles.loginText}>Login</Text>
+        <Text>Login</Text>
       </TouchableOpacity>
  
-      <TouchableOpacity style={styles.login_button}>
-        <Text style={styles.loginText}>Sign up</Text>
+      <TouchableOpacity>
+        <Text>Don't have an account? Sign up</Text>
       </TouchableOpacity>
     </View>
   );
@@ -67,6 +67,9 @@ const SearchPage = () => {
 
   const [Query, setQuery] = useState("");
   const [Answer, setAnswer] = useState("");
+  const [showValue, setShowValue] = useState(false);
+  const [counterAnswer, setCounterAnswer] = useState(0);
+  const answerArray = ["Yes", "No", "Unsure"];
 
   return (
     <View style={styles.container}>
@@ -86,17 +89,12 @@ const SearchPage = () => {
           onChangeText={(Query) => setQuery(Query)}
         />
       </View>
-
-        <TouchableOpacity style={styles.login_button} onPress={(Answer) => setAnswer(Query)}>
-          <Text style={styles.loginText}>Answer</Text>
-        </TouchableOpacity>  
+      <TouchableOpacity style={styles.login_button} onPress={() => {setAnswer(answerArray[counterAnswer]); setShowValue(true); setCounterAnswer((counterAnswer+1)%(answerArray.length))}}>
+        <Text style={styles.paragraph}>Search</Text>
+      </TouchableOpacity>
 
       
-      <View>
-        <Text style={styles.Text}>
-          {Answer}
-        </Text>
-      </View>
+      {showValue? <Text style={styles.paragraph}>Answer: {Answer}</Text> : null}
       
       
     </View>
@@ -122,7 +120,7 @@ export default App;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: "#fcfbfc",
     alignItems: "center",
     justifyContent: "center",
   },
@@ -132,9 +130,9 @@ const styles = StyleSheet.create({
   },
  
   input_view: {
-    backgroundColor: "#9999FF",
+    backgroundColor: "#89cff0",
     borderRadius: 30,
-    width: "70%",
+    width: "65%",
     height: 45,
     marginBottom: 20,
  
@@ -151,16 +149,15 @@ const styles = StyleSheet.create({
   Text: {
     height: 30,
     marginBottom: 20,
-    marginTop: 20,
   },
  
   login_button: {
-    width: "80%",
+    width: "65%",
     borderRadius: 25,
     height: 50,
     alignItems: "center",
     justifyContent: "center",
     marginTop: 20,
-    backgroundColor: "#412AD4",
+    backgroundColor: "#0072bb",
   },
 });
