@@ -6,7 +6,6 @@ import LoginPage from '../screens/LoginPage';
 import SignUpPage from '../screens/SignUpPage';
 import SearchPage from '../screens/SearchPage';
 import ForgotPasswordPage from '../screens/ForgotPasswordPage';
-import SearchHistoryPage from '../screens/SearchHistoryPage';
 
 const Stack = createNativeStackNavigator();
 
@@ -17,7 +16,6 @@ const MainStackNavigator = () => {
             <Stack.Screen name="Login Page" component={LoginPage} />
             <Stack.Screen name="Sign up Page" component={SignUpPage} />
             <Stack.Screen name="Search Page" component={SearchPage} />
-            <Stack.Screen name="Search History Page" component={SearchHistoryPage} />
             <Stack.Screen name="Forgot Password Page" component={ForgotPasswordPage} />
           </Stack.Navigator>
       );

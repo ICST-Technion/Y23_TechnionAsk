@@ -10,14 +10,29 @@ export const styles = StyleSheet.create({
       alignItems: "center",
       justifyContent: "center",
     },
-    sideContainer: {
-      flex: 1,
+    outterContainer: {
       backgroundColor: "#fcfbfc",
-      alignItems: "left",
-      justifyContent: "left",
+      flex: 1,
+    },
+    alignment: {
+      backgroundColor: "#fcfbfc",
+      alignItems: "center",
+      justifyContent: "center"
+    },
+    halfContainer: {
+      backgroundColor: "#fcfbfc",
+      alignItems: "center",
+      justifyContent: "center",
+      marginTop: 200,
     },
    
     logo: {
+      marginBottom: 10,
+    },
+   
+    loadingIcon: {
+      height: 10,
+      width: 10,
       marginBottom: 10,
     },
    
@@ -40,8 +55,12 @@ export const styles = StyleSheet.create({
     },
    
     Text: {
-      height: 20,
       marginBottom: 10,
+    },
+    
+    TextAnswer: {
+      marginBottom: 10,
+      margin: 20,
     },
   
     Title: {
@@ -66,7 +85,7 @@ export const styles = StyleSheet.create({
       height: 40,
       alignItems: "center",
       justifyContent: "center",
-      marginTop: 20,
+      marginTop: 10,
       marginBottom: 10,
       backgroundColor: "#0072bb",
     },
