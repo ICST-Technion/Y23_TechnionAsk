@@ -12,8 +12,8 @@ class UserManager:
         return None
 
     def authenticateUser(self, name, password):
-        user_password = self.db_manager.select('accounts', 'Name = ' + name, 'password')
+        user_password = self.db_manager.select('accounts', 'username = ' + name, 'password')
         if user_password is not None:
-            if password == user_password:
+            if user_password == password:
                 return True
         return False

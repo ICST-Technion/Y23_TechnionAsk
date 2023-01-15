@@ -4,10 +4,13 @@ class HistoryManager:
         self.db_manager = db_manager
 
     def get_history(self, userid):
-        where_arg = "userid = " + userid
+        where_arg = "userid = " + str(userid)
         select_arg = "question"
         return self.db_manager.select("history", where_arg, select_arg)
 
-    def update_history(self, userid, query):
-        args = "({userid}, \'{query}\')".format(userid=userid, query=query)
+    def update_history(self, userid, query, answer, query_heb = None, answer_heb = None):
+        if query_heb:
+            args = "({userid}, \'{query}\', \'{answer}\', \'{query_heb}\', \'{answer_heb}\')".format(userid=userid, query=query, answer=answer, query_heb=query_heb, answer_heb=answer_heb)
+        else:
+            args = "({userid}, \'{query}\', \'{answer}\')".format(userid=userid, query=query, answer=answer)
         self.db_manager.insert("history", args)

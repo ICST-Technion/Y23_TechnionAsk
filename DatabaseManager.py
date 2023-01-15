@@ -55,15 +55,18 @@ class DatabaseManager:
 
   def select(self, table_name, where_arg, to_select_arg = "*"):
       res = []
+      result = []
       try:
           cur = self.get_cursor()
-          query = "SELECT " + to_select_arg + " FROM " + table_name + "WHERE " + where_arg
-          rows, result = cur.execute(query)
-          if rows:
+          query = "SELECT " + to_select_arg + " FROM " + table_name + " WHERE " + where_arg
+          psycopg2.extensions.register_type(psycopg2.extensions.UNICODE, cur)
+          cur.execute(query)
+          result = cur.fetchone()
+          if result:
               for row in result:
                   res.append(row)
       except (Exception, psycopg2.DatabaseError) as error: # check why Exception first
-          print('Selection failed - ' + error)
+          print('Selection failed - ' + str(error))
       finally:
           self.commit()
           cur.close()

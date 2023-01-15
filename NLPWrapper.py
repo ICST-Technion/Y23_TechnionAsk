@@ -7,7 +7,7 @@ verbosity = 0
 
 bot = GroundedQaBot(cohere_api_key, serp_api_key)
 
-def NLPWrapper(question, history=None):
+def get_answer(question, history=None):
     if history is None:
         history = []
     bot.set_chat_history(history)
@@ -20,5 +20,5 @@ def NLPWrapper(question, history=None):
 
 # This is only for testing
 if __name__ == "__main__":
-    answer, history = NLPWrapper("who is a sylvester stallone?")
+    answer, history = get_answer("who is a sylvester stallone?")
     print(answer, history)
