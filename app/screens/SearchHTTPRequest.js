@@ -12,7 +12,7 @@ import {
     Animated
   } from "react-native";
   
-  function linkingSources(sourcesArray) {
+  export function linkingSources(sourcesArray) {
     let sourceLinks = sourcesArray.map((sourceLink) => <Text style={{color : 'blue'}} onPress={() => Linking.openURL(sourceLink)}>{sourceLink}</Text>)
     return(
         <View>{sourceLinks}</View>
@@ -29,7 +29,7 @@ import {
     authenticateEmailCredentials = (username, password) => {
         if(username == "" || password == "")
             {return;}
-        return this.getNLPdata("login",'?username='+encodeURIComponent(username) + "&password="+ encodeURIComponent(password));
+        return this.getNLPdata("testlogin",'?username='+encodeURIComponent(username) + "&password="+ encodeURIComponent(password));
     }
     animationStateChange = () => {
         Animated.loop(
@@ -64,7 +64,7 @@ import {
         if(route=="" || route == undefined)
             return;
         this.setState({loading : true});
-        fetch('http://ec2-3-82-191-102.compute-1.amazonaws.com:65434/'+route+paramList)
+        fetch('http://ec2-3-82-191-102.compute-1.amazonaws.com:65438/'+route+paramList)
         // The option above sends Email and Password as parameters, 
         // the option below sends them in a json body, uncomment in backend adding headers
         //  ,{
@@ -97,7 +97,7 @@ import {
         if("user" == "" || query == "" || route == "" || route == undefined)
             return;
         this.setState({loading : true});
-        fetch('http://ec2-3-82-191-102.compute-1.amazonaws.com:65434/'+route+"/"+user+"/"+query)
+        fetch('http://ec2-3-82-191-102.compute-1.amazonaws.com:65438/'+route+"/"+user+"/"+query)
         .then((response) => response.json())
         .then((responseJson) => {
             this.setState({
@@ -121,36 +121,36 @@ import {
         this.animationStateChange()
     }
     render () {
-        if(this.props.data['httpRequestType']=='Search') {
-            return(
-                <View style={styles.alignment}>
-                    <TouchableOpacity style={styles.login_button} onPress={() => {this.getNLPsearchData('search', this.props.data['email'], this.state.query)}}>
-                        <Text>Search</Text>
-                    </TouchableOpacity>
-                    <Text style={styles.TextAnswer}>{this.state.searchState && !this.state.loading ? 
-                    <View style={{alignContent : 'center', alignItems : 'center'}}>
-                    <Text>Answer: </Text>
-                    <Text>{this.state.data['answer']}</Text>
-                    <Text> Sources: </Text>
-                    <Text>{linkingSources(this.state.data['Sources'].split('\n'))}</Text>
-                    </View> : null}</Text>
-                    <this.animationLoading />
-                </View>
-            );
-        }
+        // if(this.props.data['httpRequestType']=='Search') {
+        //     return(
+        //         <View style={styles.alignment}>
+        //             <TouchableOpacity style={styles.login_button} onPress={() => {this.getNLPsearchData('search', this.props.data['email'], this.state.query)}}>
+        //                 <Text>Search</Text>
+        //             </TouchableOpacity>
+        //             <Text style={styles.TextAnswer}>{this.state.searchState && !this.state.loading ? 
+        //             <View style={{alignContent : 'center', alignItems : 'center'}}>
+        //             <Text>Answer: </Text>
+        //             <Text>{this.state.data['answer']}</Text>
+        //             <Text> Sources: </Text>
+        //             <Text>{linkingSources(this.state.data['Sources'].split('\n'))}</Text>
+        //             </View> : null}</Text>
+        //             <this.animationLoading />
+        //         </View>
+        //     );
+        // }
         if(this.props.data['httpRequestType']=='Sign-up')
         {
             return(
                 <View style={styles.alignment}>
 
-                    <TouchableOpacity style={styles.login_button} onPress={() => {this.getNLPdata('sign-up', '?username='+encodeURIComponent(this.props.data['email']) + "&password="+ encodeURIComponent(this.props.data['password']));}}>
+                    <TouchableOpacity style={styles.login_button} onPress={() => {this.getNLPdata('signup', '?username='+encodeURIComponent(this.props.data['email']) + "&password="+ encodeURIComponent(this.props.data['password']));}}>
                         <Text>Sign up</Text>
                     </TouchableOpacity>
                     <TouchableOpacity  onPress={() => this.props.data['navigation'].navigate('Login Page')}>
                         <Text >Already have an account? Login</Text>
                     </TouchableOpacity>
                     <this.animationLoading />
-                    {this.state.data['data'] == 'sign-up' && 'result' in this.state.data? (this.state.data['result']? this.props.data['navigation'].navigate('Search Page', {'email' : this.props.data['email']}) : <Text>Unable to sign up with given credentials</Text>) : null}
+                    {this.state.data['data'] == 'sign-up' && 'result' in this.state.data? (this.state.data['result'] == 'Successfully registered'? this.props.data['navigation'].navigate('Search Page', {'email' : this.props.data['email']}) : <Text>Unable to sign up with given credentials</Text>) : null}
                 </View>
             );
         }
@@ -166,7 +166,7 @@ import {
                         <Text >Don't have an account? Sign up</Text>
                     </TouchableOpacity>
                     <this.animationLoading/>
-                    {this.state.data['data'] == 'login' && 'result' in this.state.data? (this.state.data['result']? this.props.data['navigation'].navigate('Search Page', {'email' : this.props.data['email']}) : <Text>Wrong Credentials</Text>) : null}
+                    {this.state.data['data'] == 'login' && 'result' in this.state.data? (this.state.data['result'] == 'authentication succeeded'? this.props.data['navigation'].navigate('Search Page', {'email' : this.props.data['email']}) : <Text>Wrong Credentials</Text>) : null}
                 </View>
             );
         }
