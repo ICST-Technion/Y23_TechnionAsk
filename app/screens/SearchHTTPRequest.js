@@ -29,7 +29,7 @@ import {
     authenticateEmailCredentials = (username, password) => {
         if(username == "" || password == "")
             {return;}
-        return this.getNLPdata("testlogin",'?username='+encodeURIComponent(username) + "&password="+ encodeURIComponent(password));
+        return this.getNLPdata("login",'?username='+encodeURIComponent(username) + "&password="+ encodeURIComponent(password));
     }
     animationStateChange = () => {
         Animated.loop(
@@ -166,7 +166,7 @@ import {
                         <Text >Don't have an account? Sign up</Text>
                     </TouchableOpacity>
                     <this.animationLoading/>
-                    {this.state.data['data'] == 'login' && 'result' in this.state.data? (this.state.data['result'] == 'authentication succeeded'? this.props.data['navigation'].navigate('Search Page', {'email' : this.props.data['email']}) : <Text>Wrong Credentials</Text>) : null}
+                    {this.state.data['data'] == 'login' && 'result' in this.state.data? (this.state.data['result']? this.props.data['navigation'].navigate('Search Page', {'email' : this.props.data['email']}) : <Text>Wrong Credentials</Text>) : null}
                 </View>
             );
         }
