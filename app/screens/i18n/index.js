@@ -21,6 +21,8 @@ const resources = {
             "Reset Password": "Reset Password",
             "Sign up Page": "Sign up Page",
             "Sign up": "Sign up",
+            "Already have an account? Login": "Already have an account? Login",
+            "Don't have an account? Sign up": "Don't have an account? Sign up",
         }
     },
     he: {
@@ -39,6 +41,8 @@ const resources = {
             "Reset Password": "אפס סיסמה",
             "Sign up Page": "הרשמה",
             "Sign up": "הירשם",
+            "Already have an account? Login": "כבר יש לך חשבון? היכנס",
+            "Don't have an account? Sign up": "אין לך חשבון? הירשם",
         }
     }
 };
@@ -53,4 +57,6 @@ i18n
         }
     });
 
-export default i18n;
+export function t(name) {
+    return i18n.t(name)
+}
