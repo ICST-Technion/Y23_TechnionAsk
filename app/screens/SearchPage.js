@@ -39,7 +39,7 @@ export default function SearchPage({ navigation, route }) {
           />
         </View>
       </View>
-      <SearchHTTPRequest data={{ 'httpRequestType': 'Search', 'email': route.params?.email }} />
+      <SearchHTTPRequest data={{ 'navigation': navigation,  'httpRequestType': 'Search', 'email': route.params?.email }} />
 
     </View>
   );

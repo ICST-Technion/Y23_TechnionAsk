@@ -1,5 +1,5 @@
 import { styles } from "../styles";
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState, useRef, useCallback } from 'react';
 import {
     StyleSheet,
     Text,
@@ -11,7 +11,9 @@ import {
     Linking,
     Animated
 } from "react-native";
+import { GiftedChat } from 'react-native-gifted-chat';
 import { t } from "./i18n"
+const backendURL = 'http://ec2-3-82-191-102.compute-1.amazonaws.com:65442/';
 export function linkingSources(sourcesArray) {
     let sourceLinks = sourcesArray.map((sourceLink) => <Text style={{ color: 'blue' }} onPress={() => Linking.openURL(sourceLink)}>{sourceLink}</Text>)
     return (
@@ -24,7 +26,16 @@ export default class SearchHTTPRequest extends React.Component {
         searchState: false,
         query: "When was World War II?",
         loading: false,
-        animatedState: new Animated.Value(0.5)
+        animatedState: new Animated.Value(0.5),
+        messages : [{
+                        _id: 1,
+                        text: 'Hello, '+ this.props.data['email'] +'. Enter your question',
+                        createdAt: new Date(),
+                        user: {
+                            _id: 2,
+                            name: 'N L P',
+                        },
+                    },],
     }
     authenticateEmailCredentials = (username, password) => {
         if (username == "" || password == "") { return; }
@@ -57,84 +68,91 @@ export default class SearchHTTPRequest extends React.Component {
                     }}>
                         <Image style={styles.loadingIcon} source={require('../../assets/loading-icon.png')} />
                     </Animated.View> : null}
-                </Text></View>);
+                </Text>
+            </View>
+        );
     }
     getNLPdata = (route, paramList = "") => {
         if (route == "" || route == undefined)
             return;
         this.setState({ loading: true });
-        fetch('http://ec2-3-82-191-102.compute-1.amazonaws.com:65438/' + route + paramList)
-            // The option above sends Email and Password as parameters, 
-            // the option below sends them in a json body, uncomment in backend adding headers
-            //  ,{
-            //     method: 'OPTIONS',
-            //     headers: {
-            //         'Accept': 'application/json',
-            //         'Content-Type': 'application/json'
-            //     },
-            //     body: JSON.stringify({
-            //         username: this.props.data['email'],
-            //         password: this.props.data['password'],
-            //     })
-            // })
-            .then((response) => response.json())
-            .then((responseJson) => {
-                this.setState({
-                    data: responseJson,
-                    searchState: false,
-                    query: this.state.query,
-                    loading: false
-                })
-                return this.state.data['data'];
+        fetch(backendURL+route+paramList)
+        // The option above sends Email and Password as parameters, 
+        // the option below sends them in a json body, uncomment in backend adding headers
+        //  ,{
+        //     method: 'OPTIONS',
+        //     headers: {
+        //         'Accept': 'application/json',
+        //         'Content-Type': 'application/json'
+        //     },
+        //     body: JSON.stringify({
+        //         username: this.props.data['email'],
+        //         password: this.props.data['password'],
+        //     })
+        // })
+        .then((response) => response.json())
+        .then((responseJson) => {
+            this.setState({
+                data: responseJson,
+                searchState: false,
+                query: this.state.query,
+                loading: false
             })
-            .catch(error => {
-                this.setState({ loading: false });
-                alert(error)
-            });
+            return this.state.data['data'];
+        })
+        .catch(error => {
+            this.setState({ loading: false });
+            alert(error)
+        });
     }
-    getNLPsearchData = (route, user = "", query = "") => {
-        if ("user" == "" || query == "" || route == "" || route == undefined)
+    async getNLPsearchData (route, user = "", query ="") {
+        if("user" == "" || query == "" || route == "" || route == undefined)
             return;
-        this.setState({ loading: true });
-        fetch('http://ec2-3-82-191-102.compute-1.amazonaws.com:65438/' + route + "/" + user + "/" + query)
-            .then((response) => response.json())
-            .then((responseJson) => {
-                this.setState({
-                    data: responseJson,
-                    searchState: true,
-                    query: query,
-                    loading: false
-                })
-                return this.state.data['data']
-            })
-            .catch(error => {
-                this.setState({ loading: false });
-                alert(error)
-            });
+        this.setState({loading : true});
+        await fetch(backendURL+route+"/"+user+"/"+query)
+        .then((response) => response.json())
+        .then((responseJson) => {
+            this.setState({
+                data: responseJson,
+                searchState: true,
+                query : query,
+                loading : false
+            }, this.forceUpdate());
+        })
+        .catch(error => {
+            this.setState({loading : false});
+            alert(error)
+        });
     }
     componentDidMount = () => {
         if (this.props.data['httpRequestType'] == 'Search') { this.getNLPsearchData() }
         else { this.getNLPdata() }
         this.animationStateChange()
     }
+    async onSend(messages = []) {
+        this.setState({'messages' : GiftedChat.append(this.state.messages, messages)});
+        await this.getNLPsearchData('search', this.props.data['email'], messages[0].text);
+        let sources = '';
+        let sourcesArray = this.state.data['Sources'].split('\n');
+        for(let i=0; i < sourcesArray.length; i++) {
+            sources += sourcesArray[i];
+            sources += "\n";
+        }
+        this.setState({'messages' : GiftedChat.append(this.state.messages, 
+            {
+                _id: this.state.messages.length+1,
+                text: 'Answer: ' + this.state.data['answer'] + "\nSources:\n" + sources,
+                createdAt: new Date(),
+                user: {
+                    _id: 2,
+                    name: 'N L P',
+                }}
+        )});
+    }
     render() {
-        // if(this.props.data['httpRequestType']=='Search') {
-        //     return(
-        //         <View style={styles.alignment}>
-        //             <TouchableOpacity style={styles.login_button} onPress={() => {this.getNLPsearchData('search', this.props.data['email'], this.state.query)}}>
-        //                 <Text>Search</Text>
-        //             </TouchableOpacity>
-        //             <Text style={styles.TextAnswer}>{this.state.searchState && !this.state.loading ? 
-        //             <View style={{alignContent : 'center', alignItems : 'center'}}>
-        //             <Text>Answer: </Text>
-        //             <Text>{this.state.data['answer']}</Text>
-        //             <Text> Sources: </Text>
-        //             <Text>{linkingSources(this.state.data['Sources'].split('\n'))}</Text>
-        //             </View> : null}</Text>
-        //             <this.animationLoading />
-        //         </View>
-        //     );
-        // }
+        if(this.props.data['httpRequestType'] == 'Search') {
+            return (
+                <GiftedChat messages={this.state.messages} onSend={messages => {this.onSend(messages);}} user={{_id: 1,}} />);}
         if (this.props.data['httpRequestType'] == 'Sign-up') {
             return (
                 <View style={styles.alignment}>
@@ -142,9 +160,9 @@ export default class SearchHTTPRequest extends React.Component {
                     <TouchableOpacity style={styles.login_button} onPress={() => { this.getNLPdata('signup', '?username=' + encodeURIComponent(this.props.data['email']) + "&password=" + encodeURIComponent(this.props.data['password'])); }}>
                         <Text>{t("Sign up")}</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity onPress={() => this.props.data['navigation'].navigate('Login Page')}>
+                    {/* <TouchableOpacity onPress={() => this.props.data['navigation'].navigate('Login Page')}>
                         <Text >{t("Already have an account? Login")}</Text>
-                    </TouchableOpacity>
+                    </TouchableOpacity> */}
                     <this.animationLoading />
                     {this.state.data['data'] == 'sign-up' && 'result' in this.state.data ? (this.state.data['result'] == 'Successfully registered' ? this.props.data['navigation'].navigate('Search Page', { 'email': this.props.data['email'] }) : <Text>Unable to sign up with given credentials</Text>) : null}
                 </View>

@@ -23,9 +23,15 @@ export default function WelcomePage({ navigation }) {
 
     <View style={styles.container}>
       <Image style={styles.logo} source={require("../../assets/logo.png")} />
-      <Text style={styles.Title}>{t("Welcome to TechnionAsk")}</Text>
+      <Text style={styles.Title}>
+      {/* Welcome to TechnionAsk */}
+      {t("Welcome to TechnionAsk")}
+      </Text>
       <TouchableOpacity onPress={() => navigation.navigate('Login Page')}>
-        <Text>{t("Login")}</Text>
+        <Text>
+        {/* Login */}
+        {t("Login")}
+        </Text>
       </TouchableOpacity>
       <View Style={styles.sectionWrapper}>
         <TouchableOpacity onPress={() => {
