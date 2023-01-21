@@ -14,7 +14,7 @@ const resources = {
             "Login Page": "Login Page",
             "Forgot Password?": "Forgot Password?",
             "Email.": "Email.",
-            "Password.": "Passrowd.",
+            "Password.": "Password.",
             "Forgot Password Page": "Forgot Password Page",
             "Please enter your email": "Please enter your email",
             "Email": "Email",
