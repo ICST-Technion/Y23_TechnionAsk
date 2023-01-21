@@ -25,7 +25,7 @@ export default function SignUpPage({ navigation }) {
     return (
         <View style={styles.outterContainer}>
             <View style={styles.halfContainer}>
-                <Image source={require("../../assets/logo.png")} />
+                <Image style = {styles.logo}  source={require("../../assets/logo.png")} />
                 <View style={styles.input_view}>
                     <TextInput
                         style={styles.TextInput}

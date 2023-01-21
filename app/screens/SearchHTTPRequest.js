@@ -160,9 +160,9 @@ export default class SearchHTTPRequest extends React.Component {
                     <TouchableOpacity style={styles.login_button} onPress={() => { this.getNLPdata('signup', '?username=' + encodeURIComponent(this.props.data['email']) + "&password=" + encodeURIComponent(this.props.data['password'])); }}>
                         <Text>{t("Sign up")}</Text>
                     </TouchableOpacity>
-                    {/* <TouchableOpacity onPress={() => this.props.data['navigation'].navigate('Login Page')}>
+                    <TouchableOpacity onPress={() => this.props.data['navigation'].navigate('Login Page')}>
                         <Text >{t("Already have an account? Login")}</Text>
-                    </TouchableOpacity> */}
+                    </TouchableOpacity>
                     <this.animationLoading />
                     {this.state.data['data'] == 'sign-up' && 'result' in this.state.data ? (this.state.data['result'] == 'Successfully registered' ? this.props.data['navigation'].navigate('Search Page', { 'email': this.props.data['email'] }) : <Text>Unable to sign up with given credentials</Text>) : null}
                 </View>

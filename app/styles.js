@@ -28,8 +28,8 @@ export const styles = StyleSheet.create({
    
     logo: {
       marginBottom: 10,
-      height: 200,
-      width: 200,
+      height: 150,
+      width: 150,
     },
    
     loadingIcon: {
