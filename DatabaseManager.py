@@ -61,10 +61,10 @@ class DatabaseManager:
           query = "SELECT " + to_select_arg + " FROM " + table_name + " WHERE " + where_arg
           psycopg2.extensions.register_type(psycopg2.extensions.UNICODE, cur)
           cur.execute(query)
-          result = cur.fetchone()
+          result = cur.fetchall()
           if result:
               for row in result:
-                  res.append(row)
+                  res.append(row[0])
       except (Exception, psycopg2.DatabaseError) as error: # check why Exception first
           print('Selection failed - ' + str(error))
       finally:

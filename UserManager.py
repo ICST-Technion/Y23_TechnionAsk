@@ -4,16 +4,19 @@ class UserManager:
         self.db_manager = db_manager
 
     def insertUser(self, name, password):
-        return self.db_manager.insert('accounts (username, password)', "('" + name + "', '" + password + "'")
+        return self.db_manager.insert('accounts (username, password)', "('" + name + "', '" + password + "')")
 
 
     def getUserId(self, name):
-        user_id = self.db_manager.select('accounts', 'Name = ' + name, 'userid')
-        return None
+        user_id = self.db_manager.select('accounts', "username = '" + name + "'", 'userid')
+        if(len(user_id) == 0):
+            return None
+        return user_id[0]
 
     def authenticateUser(self, name, password):
-        user_password = self.db_manager.select('accounts', 'username = ' + name, 'password')
-        if user_password is not None:
-            if user_password == password:
+        user_password = self.db_manager.select('accounts', "username = '" + name + "'", 'password')
+        #Lara - temporary add checking not empty list is returned 
+        if user_password is not None and not(user_password == []):
+            if user_password[0] == password:
                 return True
         return False

@@ -6,7 +6,10 @@ class HistoryManager:
     def get_history(self, userid):
         where_arg = "userid = " + str(userid)
         select_arg = "question"
-        return self.db_manager.select("history", where_arg, select_arg)
+        history = self.db_manager.select("history", where_arg, select_arg)
+        for i, row in enumerate(history):
+            history[i] = row.rstrip()
+        return history
 
     def update_history(self, userid, query, answer, query_heb = None, answer_heb = None):
         if query_heb:
