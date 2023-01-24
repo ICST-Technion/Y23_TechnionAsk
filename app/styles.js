@@ -23,7 +23,7 @@ export const styles = StyleSheet.create({
       backgroundColor: "#fcfbfc",
       alignItems: "center",
       justifyContent: "center",
-      marginTop: 200,
+      marginTop: 100,
     },
    
     logo: {

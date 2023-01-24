@@ -143,14 +143,14 @@ export default class SearchHTTPRequest extends React.Component {
     }
 
     //Chat bot methods
-    scrollToBottomComponent() {
-        return (
-            <FontAwesome name = 'angle-double-down' 
-            size={22}
-            color='#000'
-            />
-        );
-    }
+    // scrollToBottomComponent() {
+    //     return (
+    //         <FontAwesome name = 'angle-double-down' 
+    //         size={22}
+    //         color='#000'
+    //         />
+    //     );
+    // }
     renderMessageImage(props) {
         return (
             <MessageImage 
@@ -239,8 +239,8 @@ export default class SearchHTTPRequest extends React.Component {
                 renderBubble={this.renderBubble} 
                 alwaysShowSend
                 renderSend={this.renderSend}
-                scrollToBottom
-                scrollToBottomComponent={this.scrollToBottomComponent}
+                // scrollToBottom
+                // scrollToBottomComponent={this.scrollToBottomComponent}
                 renderMessageImage={this.renderMessageImage}
                 />);}
         if (this.props.data['httpRequestType'] == 'Sign-up') {
