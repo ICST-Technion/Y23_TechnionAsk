@@ -37,6 +37,11 @@ export const styles = StyleSheet.create({
       width: 10,
       marginBottom: 10,
     },
+    
+    sendIcon: {
+      marginBottom: 5,
+      marginRight: 5,
+    },
    
     input_view: {
       backgroundColor: "#89cff0",
@@ -91,6 +96,8 @@ export const styles = StyleSheet.create({
       marginBottom: 10,
       backgroundColor: "#0072bb",
     },
-    
+    errorColor: {
+      color : '#FF0000',
+    },
   });
   
