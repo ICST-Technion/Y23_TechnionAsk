@@ -1,26 +1,28 @@
-import React from "react";
 import {
   StyleSheet
 } from "react-native";
 
+export var backgroundColor = '#ececec';
+export var writingColor = '#000';
+
 export const styles = StyleSheet.create({
     container: {
       flex: 1,
-      backgroundColor: "#fcfbfc",
+      backgroundColor:  backgroundColor,
       alignItems: "center",
       justifyContent: "center",
     },
     outterContainer: {
-      backgroundColor: "#fcfbfc",
+      backgroundColor: backgroundColor,
       flex: 1,
     },
     alignment: {
-      backgroundColor: "#fcfbfc",
+      backgroundColor: backgroundColor,
       alignItems: "center",
       justifyContent: "center"
     },
     halfContainer: {
-      backgroundColor: "#fcfbfc",
+      backgroundColor: backgroundColor,
       alignItems: "center",
       justifyContent: "center",
       marginTop: 100,
@@ -44,12 +46,11 @@ export const styles = StyleSheet.create({
     },
    
     input_view: {
-      backgroundColor: "#89cff0",
-      borderRadius: 20,
+      backgroundColor: "#b88d20",
+      borderRadius: 10,
       width: "65%",
       height: 40,
       marginBottom: 10,
-   
       alignItems: "center",
     },
    
@@ -63,6 +64,7 @@ export const styles = StyleSheet.create({
    
     Text: {
       marginBottom: 10,
+      color: writingColor
     },
     
     TextAnswer: {
@@ -76,6 +78,7 @@ export const styles = StyleSheet.create({
       fontWeight: 'bold',
       textAlign: 'center',
       marginBottom: 30,
+      color: writingColor,
     },
   
     Header: {
@@ -88,16 +91,16 @@ export const styles = StyleSheet.create({
   
     login_button: {
       width: "65%",
-      borderRadius: 25,
+      borderRadius: 10,
       height: 40,
       alignItems: "center",
       justifyContent: "center",
       marginTop: 10,
       marginBottom: 10,
-      backgroundColor: "#0072bb",
+      backgroundColor: "#b88d20",
     },
     errorColor: {
       color : '#FF0000',
     },
-  });
-  
+  }
+  );

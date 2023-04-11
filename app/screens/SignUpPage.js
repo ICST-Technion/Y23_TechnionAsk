@@ -17,6 +17,7 @@ export default function SignUpPage({ navigation }) {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const { t, i18n } = useTranslation();
+    const writingDirAlign = (initialStyle) => {return [initialStyle, {writingDirection : i18n.dir()}]};
     useLayoutEffect(() => {
         navigation.setOptions({
             title: t("Sign up Page")
@@ -28,18 +29,18 @@ export default function SignUpPage({ navigation }) {
                 <Image style = {styles.logo}  source={require("../../assets/logo.png")} />
                 <View style={styles.input_view}>
                     <TextInput
-                        style={styles.TextInput}
+                        style={writingDirAlign(styles.TextInput)}
                         placeholder={t("Email.")}
-                        placeholderTextColor="#003f5c"
+                        placeholderTextColor="#fff"
                         onChangeText={(email) => setEmail(email)}
                     />
                 </View>
 
                 <View style={styles.input_view}>
                     <TextInput
-                        style={styles.TextInput}
+                        style={writingDirAlign(styles.TextInput)}
                         placeholder={t("Password.")}
-                        placeholderTextColor="#003f5c"
+                        placeholderTextColor="#fff"
                         secureTextEntry={true}
                         onChangeText={(password) => setPassword(password)}
                     />
@@ -49,7 +50,7 @@ export default function SignUpPage({ navigation }) {
                     <TextInput
                     style={styles.TextInput}
                     placeholder="Confirm Password."
-                    placeholderTextColor="#003f5c"
+                    placeholderTextColor="#fff"
                     secureTextEntry={true}
                     onChangeText={(passwordConf) => setPasswordConf(passwordConf)}
                     />

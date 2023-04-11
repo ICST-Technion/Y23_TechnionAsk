@@ -13,7 +13,10 @@ import {
 } from "react-native";
 import SearchHTTPRequest from "./SearchHTTPRequest";
 
-
+/* 
+ * Previous Search Page layout
+ * Now replaced with chatStyle
+ */
 export default function SearchPage({ navigation, route }) {
   const [query, setQuery] = useState("Enter a question")
   return (

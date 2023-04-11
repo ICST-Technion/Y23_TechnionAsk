@@ -1,19 +1,17 @@
-import { styles } from "../styles";
-import React, { useLayoutEffect, useState } from "react";
+import { styles, writingColor } from "../styles";
+import React, { useLayoutEffect } from "react";
 import {
-  StyleSheet,
   Text,
   View,
   Image,
-  TextInput,
-  Button,
   TouchableOpacity,
-  Linking,
-  Pressable,
 } from "react-native";
 import { useTranslation } from "react-i18next";
+
 export default function WelcomePage({ navigation }) {
   const { t, i18n } = useTranslation();
+  const writingDirAlign = (initialStyle) => {return [initialStyle, {writingDirection : i18n.dir()}]}; //Direction signifies the direction the language is writing in, right to left (rtl) or left to right (ltr)
+  
   useLayoutEffect(() => {
     navigation.setOptions({
       title: t("Welcome Page")
@@ -23,23 +21,16 @@ export default function WelcomePage({ navigation }) {
 
     <View style={styles.container}>
       <Image style={styles.logo} source={require("../../assets/logo.png")} />
-      <Text style={styles.Title}>
+      <Text style={writingDirAlign(styles.Title)}>
       {/* Welcome to TechnionAsk */}
       {t("Welcome to TechnionAsk")}
       </Text>
       <TouchableOpacity onPress={() => navigation.navigate('Login Page')}>
-        <Text>
+        <Text style={writingDirAlign({color: writingColor})}>
         {/* Login */}
         {t("Login")}
         </Text>
       </TouchableOpacity>
-      <View Style={styles.sectionWrapper}>
-        <TouchableOpacity onPress={() => {
-          i18n.changeLanguage(i18n.language === 'he' ? 'en' : 'he');
-        }}>
-          <Text>{t("change language")}</Text>
-        </TouchableOpacity>
-      </View>
     </View>
 
 
