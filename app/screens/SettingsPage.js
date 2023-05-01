@@ -3,7 +3,8 @@ import React, { useLayoutEffect, useState } from "react";
 import {
   Text,
   View,
-  Image
+  Image,
+  TouchableOpacity
 } from "react-native";
 import { RadioGroup } from "react-native-radio-buttons-group";
 import { useTranslation } from "react-i18next";

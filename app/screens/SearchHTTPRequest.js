@@ -17,6 +17,7 @@ import {
 import { Bubble, GiftedChat, MessageImage, Send, InputToolbar, Time, Avatar } from 'react-native-gifted-chat';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 import FontAwesome from 'react-native-vector-icons/FontAwesome'
+
 import { writingColor } from "../styles";
 
 //Translation import
@@ -24,10 +25,10 @@ import { t } from "./i18n"
 
 const messageIcon = require('../../assets/messageTypingIcon.gif');
 const backendURL = 'http://ec2-3-82-191-102.compute-1.amazonaws.com:65435/';
-const hebrewFirst = "א".charCodeAt(0);
-const hebrewLast = "ת".charCodeAt(0);
-const arabicFirst = "ؠ".charCodeAt(0);
-const arabicLast = "ي".charCodeAt(0);
+export const hebrewFirst = "א".charCodeAt(0);
+export const hebrewLast = "ת".charCodeAt(0);
+export const arabicFirst = "ؠ".charCodeAt(0);
+export const arabicLast = "ي".charCodeAt(0);
 var writingDirectionOfLastMessage = 'ltr';
 
 export default class SearchHTTPRequest extends React.Component {
@@ -53,7 +54,6 @@ export default class SearchHTTPRequest extends React.Component {
         if (username == "" || password == "") { return; }
         return this.getNLPdata("login", '?username=' + encodeURIComponent(username) + "&password=" + encodeURIComponent(password));
     }
-
     //Loading Animation
     animationStateChange = () => {
         Animated.loop(

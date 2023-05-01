@@ -11,11 +11,23 @@ import {
   Linking
 } from "react-native";
 import { useTranslation } from "react-i18next";
+import { hebrewFirst, hebrewLast, arabicFirst, arabicLast } from "./SearchHTTPRequest";
 
 export default function ForgotPasswordPage({ navigation }) {
   const [email, setEmail] = useState("");
   const { t, i18n } = useTranslation();
   const writingDirAlign = (initialStyle) => {return [initialStyle, {writingDirection : i18n.dir()}]};
+  const [alignDirectionUsername, setAlignDirectionUsername] = useState(i18n.dir());
+  const changingWritingDirAlign = (initialStyle, alignment) => {return [initialStyle, {writingDirection : alignment}]};
+  const checkAlignment = (word) => {
+      if(word == "")
+          return i18n.dir();
+      var firstLetter = word[0].charCodeAt(0);
+      if((firstLetter >= hebrewFirst && firstLetter <= hebrewLast) || (firstLetter >= arabicFirst && firstLetter <= arabicLast))
+          return 'rtl';
+      return 'ltr';
+  
+  }
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -34,10 +46,10 @@ export default function ForgotPasswordPage({ navigation }) {
 
       <View style={styles.input_view}>
         <TextInput
-          style={writingDirAlign(styles.TextInput)}
+          style={changingWritingDirAlign(styles.TextInput, alignDirectionUsername)}
           placeholder={t("Email")}
           placeholderTextColor="#fff"
-          onChangeText={(email) => setEmail(email)}
+          onChangeText={(email) => {setAlignDirectionUsername(checkAlignment(email)); setEmail(email);}}
         />
       </View>
 

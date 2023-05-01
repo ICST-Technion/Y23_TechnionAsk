@@ -26,7 +26,10 @@ const resources = {
             "Sign up": "Sign up",
             "Already have an account? Login": "Already have an account? Login",
             "Don't have an account? Sign up": "Don't have an account? Sign up",
-            "Answering Service:": "Answering Service:"
+            "Answering Service:": "Answering Service:",
+            "Admin View Page": "Admin",
+            "Users" : "Users",
+            "History": "History",
         }
     },
     he: {
@@ -50,7 +53,10 @@ const resources = {
             "Sign up": "הירשם",
             "Already have an account? Login": "כבר יש לך חשבון? היכנס",
             "Don't have an account? Sign up": "אין לך חשבון? הירשם",
-            "Answering Service:": "שירות מענה:"
+            "Answering Service:": "שירות מענה:",
+            "Admin View Page": "מנהל",
+            "Users" : "משתמשים",
+            "History": "היסטוריה",
         }
     }
 };
