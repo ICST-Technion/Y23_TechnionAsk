@@ -8,10 +8,10 @@ import {
 } from "react-native";
 import { useTranslation } from "react-i18next";
 
+
 export default function WelcomePage({ navigation }) {
   const { t, i18n } = useTranslation();
   const writingDirAlign = (initialStyle) => {return [initialStyle, {writingDirection : i18n.dir()}]}; //Direction signifies the direction the language is writing in, right to left (rtl) or left to right (ltr)
-  
   useLayoutEffect(() => {
     navigation.setOptions({
       title: t("Welcome Page")

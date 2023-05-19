@@ -1,5 +1,5 @@
 import React, { useLayoutEffect } from "react";
-import SearchHTTPRequest from "./SearchHTTPRequest";
+import SearchQueryHTTPRequest from "./SearchQueryHTTPRequest";
 import { useTranslation } from "react-i18next";
 
 const ChatScreen = ({ navigation, route }) => {
@@ -12,7 +12,8 @@ const ChatScreen = ({ navigation, route }) => {
       })
     
       return (
-        <SearchHTTPRequest  data={{ 'navigation': navigation,  'httpRequestType': 'Search', 'email': route.params?.email }} />
+        <SearchQueryHTTPRequest  data={{ 'navigation': navigation,  'httpRequestType': 'Search', 'email': route.params?.email==undefined? 'Guest' : route.params?.email }} />
+
     );
 }
 export default ChatScreen;

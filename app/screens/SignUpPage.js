@@ -11,9 +11,9 @@ import {
     Linking
 } from "react-native";
 
-import SearchHTTPRequest from "./SearchHTTPRequest";
+import SendHTTPRequest from "./SendHTTPRequest";
 import { useTranslation } from "react-i18next";
-import { arabicFirst, arabicLast, hebrewFirst, hebrewLast } from "./SearchHTTPRequest";
+import { arabicFirst, arabicLast, hebrewFirst, hebrewLast } from "./SearchQueryHTTPRequest";
 
 export default function SignUpPage({ navigation }) {
     const [email, setEmail] = useState("");
@@ -69,8 +69,7 @@ export default function SignUpPage({ navigation }) {
                     />
                 </View> */}
             </View>
-            <SearchHTTPRequest data={{ 'navigation': navigation, 'httpRequestType': 'Sign-up', 'email': email, 'password': password }} />
-
+            <SendHTTPRequest data={{ 'navigation': navigation, 'httpRequestType': 'Sign-up', 'email': email, 'password': password }} />
         </View>
     );
 }

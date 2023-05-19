@@ -61,16 +61,16 @@ export default function SettingsScreen({navigation}) {
       <Image style={styles.logo} source={require("../../assets/logo.png")} />
         <Text style={styles.Title}> {t("Settings Page")} </Text>
         
-          <Text style={writingDirAlign({color: writingColor})}>{t("change language")}: <RadioGroup layout="row"
+          <Text style={writingDirAlign({color: writingColor, justifyContent: 'center', flexDirection: 'row'})}>{t("change language")}: <RadioGroup layout="row"
             radioButtons={radioLng} 
             onPress={(radioVal) => {setRadioLng(radioVal); languageVar = radioVal[0].selected? 'en' : 'he'; i18n.changeLanguage(languageVar)}} 
           />
           </Text>
-        <Text style={writingDirAlign({color: writingColor})}> {t("Answering Service:")} 
-        <RadioGroup layout="row"
-            radioButtons={radioService} 
-            onPress={(radioVal) => {setRadioService(radioVal); answerService = radioVal[0].selected? 'NLP' : 'ChatGPT'}} 
-        /></Text>
+          {/* <Text style={writingDirAlign({color: writingColor, justifyContent: 'center', flexDirection: 'row'})}> {t("Answering Service:")} 
+          <RadioGroup layout="row"
+              radioButtons={radioService} 
+              onPress={(radioVal) => {setRadioService(radioVal); answerService = radioVal[0].selected? 'NLP' : 'ChatGPT'}} 
+          /></Text> */}
     </View>
   );
 }

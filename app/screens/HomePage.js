@@ -10,13 +10,16 @@ const Tab = createBottomTabNavigator();
 
 export default function Home({navigation}) {
     const { t, i18n } = useTranslation();
+    document.dir = i18n.dir();
+    
     useLayoutEffect(() => {
       navigation.setOptions({
         title: t("Home")
       })
     })
     return (
-      <Tab.Navigator screenOptions={({ route }) => ({
+      <Tab.Navigator screenOptions={ ({ route }) => ({
+        tabBarItemStyle: {direction: i18n.dir(), justifyContent: 'space-evenly'},
         tabBarIcon: ({ focused, color, size }) => {
           let iconName;
   
@@ -37,7 +40,7 @@ export default function Home({navigation}) {
         tabBarActiveBackgroundColor: '#0f1d41',
         tabBarInactiveBackgroundColor: '#0f1d41',
       })} >
-        <Tab.Screen name="Welcome Page" component={WelcomePage} />
+        <Tab.Screen name="Welcome Page" component={WelcomePage}/>
         <Tab.Screen name="Settings" component={SettingsScreen} />
       </Tab.Navigator>
     );

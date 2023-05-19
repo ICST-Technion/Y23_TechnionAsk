@@ -11,7 +11,7 @@ import {
   Linking
 } from "react-native";
 import { useTranslation } from "react-i18next";
-import { hebrewFirst, hebrewLast, arabicFirst, arabicLast } from "./SearchHTTPRequest";
+import { hebrewFirst, hebrewLast, arabicFirst, arabicLast  } from "./SearchQueryHTTPRequest";
 
 export default function ForgotPasswordPage({ navigation }) {
   const [email, setEmail] = useState("");

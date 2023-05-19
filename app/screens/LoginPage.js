@@ -10,10 +10,10 @@ import {
     TouchableOpacity,
     Linking
 } from "react-native";
-import SearchHTTPRequest from "./SearchHTTPRequest";
+import SendHTTPRequest from "./SendHTTPRequest";
 import { useTranslation } from "react-i18next";
 import { writingColor } from "../styles";
-import { hebrewFirst, hebrewLast, arabicFirst, arabicLast } from "./SearchHTTPRequest";
+import { hebrewFirst, hebrewLast, arabicFirst, arabicLast } from "./SearchQueryHTTPRequest";
 
 export default function LoginPage({ navigation }) {
     const { t, i18n } = useTranslation();
@@ -64,7 +64,7 @@ export default function LoginPage({ navigation }) {
                         <Text style={writingDirAlign({color: writingColor})} onPress={() => navigation.navigate('Forgot Password Page')}>{t("Forgot Password?")}</Text>
                     </TouchableOpacity>
                 </View>
-            <SearchHTTPRequest data={{ 'navigation': navigation, 'httpRequestType': 'Login', 'email': email, 'password': password }} />
+            <SendHTTPRequest data={{ 'navigation': navigation, 'httpRequestType': 'Login', 'email': email, 'password': password }} />
         </View>
     );
 }

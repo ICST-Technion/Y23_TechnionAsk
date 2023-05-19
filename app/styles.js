@@ -100,6 +100,26 @@ export const styles = StyleSheet.create({
       marginBottom: 10,
       backgroundColor: "#b88d20",
     },
+  
+    view_button : {
+      width: "31.125%",
+      borderRadius: 10,
+      height: 40,
+      alignItems: "center",
+      justifyContent: "center",
+      marginTop: 10,
+      marginBottom: 10,
+      marginLeft: 20,
+      marginRight: 20,
+      backgroundColor: "#b88d20",
+    },
+  
+    side_button : {
+      alignSelf: 'flex-end',
+      flexDirection: 'row',
+      justifyContent: 'center', 
+      alignItems: 'center'
+    },
     errorColor: {
       color : '#FF0000',
     },

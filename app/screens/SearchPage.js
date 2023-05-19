@@ -11,7 +11,7 @@ import {
   Linking,
   Animated
 } from "react-native";
-import SearchHTTPRequest from "./SearchHTTPRequest";
+import SendHTTPRequest from "./SendHTTPRequest";
 
 /* 
  * Previous Search Page layout
@@ -42,7 +42,7 @@ export default function SearchPage({ navigation, route }) {
           />
         </View>
       </View>
-      <SearchHTTPRequest data={{ 'navigation': navigation,  'httpRequestType': 'Search', 'email': route.params?.email }} />
+      <SendHTTPRequest data={{ 'navigation': navigation,  'httpRequestType': 'Search', 'email': route.params?.email }} />
 
     </View>
   );
