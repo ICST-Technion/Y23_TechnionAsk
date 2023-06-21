@@ -17,3 +17,11 @@ class HistoryManager:
         else:
             args = "({userid}, \'{query}\', \'{answer}\')".format(userid=userid, query=query, answer=answer)
         self.db_manager.insert("history", args)
+
+    def get_all_history(self):
+        where_arg = "True"
+        select_arg = "(userid, question, answer)"
+        history = self.db_manager.select("history", where_arg, select_arg)
+        for i, row in enumerate(history):
+            history[i] = row.rstrip()
+        return history

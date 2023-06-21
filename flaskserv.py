@@ -1,12 +1,21 @@
 # import main Flask class and request object
 from flask import Flask, request, jsonify
 from googletrans import Translator
-import DatabaseManager, HistoryManager, UserManager, NLPWrapper
+import DatabaseManager, HistoryManager, UserManager
+from NLPWrapper import NLPWrapper
+from chatGPT import ChatGPTService
 # create the Flask app
 app = Flask(__name__)
 database_manager = None
 history_manager = None
 user_manager = None
+chatgpt_instance = None
+nlpwrapper_instance = None
+
+fixedUsers = [['Test123', True, 'Blocked'],
+          ['MalikKhalaf', True, 'Active'],
+          ['Mohammad', False, 'Active'],
+          ['NoamAlon', False, 'Blocked'],]
 
 def jsonResponse(stringData):
     response = jsonify(stringData)
@@ -51,55 +60,113 @@ def login():
     result = user_manager.authenticateUser(username, userPassword)
     print(result)
     return jsonResponse({'data' : 'login', 'result' : result})
-@app.route('/search/<username>/<query>')
-def search(username, query):
+
+@app.route('/search/<username>/<service>/<query>')
+def search(username, service, query):
     userid = user_manager.getUserId(username)
-    translator = Translator(service_urls=['translate.google.com'])
-    lang = translator.detect(query).lang
-    print(lang)
-    if (lang == 'iw' or lang == 'he'):
-        return search_heb(userid, query)
+    answer = ""
+    if 'NLP' in service:
+        translator = Translator(service_urls=['translate.google.com'])
+        lang = translator.detect(query).lang
+        if (lang == 'iw' or lang == 'he'):
+            return nlpwrapper_instance.search_heb(userid, query)
+        else:
+            return nlpwrapper_instance.search_eng(userid, query)
+        #answer = "answer: World War II began in Europe on September 1, 1939, when Germany invaded Poland. Great Britain and France responded by declaring war on Germany on September 3. The war between the U.S.S.R. and Germany began on June 22, 1941, with Operation Barbarossa, the German invasion of the Soviet Union. The war in the Pacific began on December 7/8, 1941, when Japan attacked the American naval base at Pearl Harbor and other American, Dutch, and British military installations\nSource:\nhttps://www.britannica.com/event/World-War-II"
+        #answered, sources = answer.split("answer:")[1].split("Source:\n")
     else:
-        return search_eng(userid, query)
+        return chatgpt_instance.search_eng(userid, query)
+       # answered = chatGPT.ask_question(query)
+        #sources = "ChatGPT"
+    #answerResponse = {'data' : 'search', 'user' : userid, 'question' : query, 'answer' : answered, 'Sources' : sources}
+    #return jsonResponse(answerResponse)
+    #translator = Translator(service_urls=['translate.google.com'])
+    #lang = translator.detect(query).lang
+    #print(lang)
+    #if (lang == 'iw' or lang == 'he'):
+    #    return search_heb(userid, query)
+    #else:
+    #return new_search_eng(userid, query)
 
-def search_eng(userid, query):
-    old_history = history_manager.get_history(userid)
-    answer, new_history = NLPWrapper.get_answer(query, old_history)
-    history_manager.update_history(userid, query, answer)
-    # answer = "answer: World War II began in Europe on September 1, 1939, when Germany invaded Poland. Great Britain and France responded by declaring war on Germany on September 3. The war between the U.S.S.R. and Germany began on June 22, 1941, with Operation Barbarossa, the German invasion of the Soviet Union. The war in the Pacific began on December 7/8, 1941, when Japan attacked the American naval base at Pearl Harbor and other American, Dutch, and British military installations\nSource:\nhttps://www.britannica.com/event/World-War-II"
-    answered, sources = answer.split("answer:")[1].split("Source:\n")
-    answerResponse = {'data' : 'search', 'user' : userid, 'question' : query, 'answer' : answered, 'Sources' : sources}
-    return jsonResponse(answerResponse)
-
-def search_heb(userid, query_heb):
-    translator = Translator(service_urls=['translate.google.com'])
-    query_eng = translator.translate(text = query_heb, src='he').text
-    old_history = history_manager.get_history(userid)
-    answer, new_history = NLPWrapper.get_answer(query_eng, old_history)
-    answer_text, sources = answer.split("answer:")[1].split("Source:\n")
-    answer_heb = translator.translate(text = answer_text, dest = 'he', src='en').text
-    history_manager.update_history(userid, query_eng, answer_text+sources, query_heb, answer_heb)
-    answerResponse = {'user' : userid, 'question' : query_heb, 'answer' : answer_heb, 'Sources' : sources}
-    return jsonResponse(answerResponse)
-
-#@app.route('/sign-up')
-#def signup():
-#    return jsonResponse({'data' : 'sign-up', 'result' : True})
-
-@app.route('/query-example')
-def query_example():
-    return jsonResponse({'data' : 'Query String Example'})
-
-@app.route('/form-example')
-def form_example():
-    return jsonResponse({'data' : 'Form Data Example'})
-
-@app.route('/json-example')
-def json_example():
-    return jsonResponse({'data' : 'JSON Object Example'})
+# def new_search_eng(userid, query):
+#     answered = chatGPT.ask_question(query)
+#     answerResponse = {'data' : 'search', 'user' : userid, 'question' : query, 'answer' : answered, 'Sources' : "ChatGPT"}
+#     return jsonResponse(answerResponse)
 
 
+# def search_eng(userid, query):
+#     old_history = history_manager.get_history(userid)
+#     answer, new_history = NLPWrapper.get_answer(query, old_history)
+#     history_manager.update_history(userid, query, answer)
+#     # answer = "answer: World War II began in Europe on September 1, 1939, when Germany invaded Poland. Great Britain and France responded by declaring war on Germany on September 3. The war between the U.S.S.R. and Germany began on June 22, 1941, with Operation Barbarossa, the German invasion of the Soviet Union. The war in the Pacific began on December 7/8, 1941, when Japan attacked the American naval base at Pearl Harbor and other American, Dutch, and British military installations\nSource:\nhttps://www.britannica.com/event/World-War-II"
+#     answered, sources = answer.split("answer:")[1].split("Source:\n")
+#     answerResponse = {'data' : 'search', 'user' : userid, 'question' : query, 'answer' : answered, 'Sources' : sources}
+#     return jsonResponse(answerResponse)
 
+# def search_heb(userid, query_heb):
+#     translator = Translator(service_urls=['translate.google.com'])
+#     query_eng = translator.translate(text = query_heb, src='he').text
+#     old_history = history_manager.get_history(userid)
+#     answer, new_history = NLPWrapper.get_answer(query_eng, old_history)
+#     answer_text, sources = answer.split("answer:")[1].split("Source:\n")
+#     answer_heb = translator.translate(text = answer_text, dest = 'he', src='en').text
+#     history_manager.update_history(userid, query_eng, answer_text+sources, query_heb, answer_heb)
+#     answerResponse = {'user' : userid, 'question' : query_heb, 'answer' : answer_heb, 'Sources' : sources}
+#     return jsonResponse(answerResponse)
+
+@app.route('/getAllUsers')
+def getAllUsers():
+    # Lara - TODO Add Admin Check for username
+    # username = request.args.get("username")
+    # userPassword = request.args.get("password")
+    users = (user_manager.getAllDBUsers())
+    for i in range(len(users)):
+        users[i] = (users[i][1:len(users[i])-1].replace("\"", "")).split(',')
+    return jsonResponse({'data' : 'getAllUsers', 'tableHead': ['Username', 'Privileges', 'Status'] ,'result' : fixedUsers})
+
+@app.route('/getAllHistory')
+def getAllHistory():
+    # Lara - TODO Add Admin Check for username
+    # username = request.args.get("username")
+    # userPassword = request.args.get("password")
+    history = (history_manager.get_all_history())
+    for i in range(len(history)):
+        history[i] = history[i][1:len(history[i])-1]
+        userId = history[i].split(',')[0]
+        question = history[i][len(userId) + 1 :len(history[i])].split("\"")[1]
+        answer = [item for item in history[i][len(userId) + 1 :len(history[i])].split("\"") if item != '']
+        answer = answer[len(answer)-1]
+        history[i] = [(str(user_manager.getUsername(userId))).strip(), str(question).strip(), answer]
+    return jsonResponse({'data' : 'getAllHistory', 'tableHead': ['Username', 'Question', 'Answer'], 'result' : history})
+
+@app.route('/changeAccess')
+def changeAccess():
+    data = request.args
+    userToChange = data.get('username')
+    # adminBlocking = data.get('adminBlocking')
+    # Lara TODO add check userToBlock is not client
+    # Add admin check
+    # Change in database
+    for user in fixedUsers:
+        if user[0] == userToChange:
+            if user[2] == "Blocked":
+                user[2] = "Active"
+            else:
+                user[2] = "Blocked"
+    return jsonResponse({'data' : 'changeAccess', 'result' : True})
+
+@app.route('/changePrivilege')
+def changePrivilege():
+    data = request.args
+    userToChange = data.get('username')
+    # adminBlocking = data.get('adminBlocking')
+    # Lara TODO add check userToChange is not client
+    # Add admin check
+    # Change in database
+    for user in fixedUsers:
+        if user[0] == userToChange:
+            user[1] = not user[1]
+    return jsonResponse({'data' : 'changePrivilege', 'result' : True})
 
 
 if __name__ == '__main__':
@@ -108,4 +175,6 @@ if __name__ == '__main__':
     database_manager.connect()
     history_manager = HistoryManager.HistoryManager(database_manager)
     user_manager = UserManager.UserManager(database_manager)
+    chatgpt_instance = ChatGPTService(history_manager)
+    nlpwrapper_instance = NLPWrapper(history_manager)
     app.run(host='0.0.0.0', debug=True, port=65435)

@@ -20,3 +20,13 @@ class UserManager:
             if user_password[0] == password:
                 return True
         return False
+
+    #Lara - Adding for Admin View test
+    def getAllDBUsers(self):
+        return self.db_manager.select('accounts', 'True', '(username, password)')
+
+    def getUsername(self, userId):
+        user_name = self.db_manager.select('accounts', "userid = '" + userId + "'", 'username')
+        if(len(user_name) == 0):
+            return None
+        return user_name[0]

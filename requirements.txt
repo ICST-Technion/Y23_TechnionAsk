@@ -14,7 +14,7 @@ isort==5.10.1
 lazy-object-proxy==1.7.1
 mccabe==0.7.0
 multidict==6.0.2
-numpy==1.22.4
+numpy==1.21.6
 platformdirs==2.5.2
 pylint==2.13.9
 PyYAML==6.0
@@ -23,11 +23,12 @@ soupsieve==2.3.2.post1
 tomli==2.0.1
 typing_extensions==4.2.0
 streamlit==1.12.0
-streamlit-chat==0.0.2.1
+streamlit-chat==0.0.1
 urllib3==1.26.9
 wrapt==1.14.1
 yarl==1.7.2
 evaluate==0.3.0
-discord.py==2.0.1
+discord.py==1.7.3
 flask==2.1.2
 waitress==2.1.2
+openai==0.27.6
