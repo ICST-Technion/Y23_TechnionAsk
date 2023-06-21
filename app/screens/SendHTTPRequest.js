@@ -18,7 +18,7 @@ import { t } from "./i18n"
 
 import { writingColor } from "../styles";
 
-export const backendURL = 'http://ec2-3-82-191-102.compute-1.amazonaws.com:65443/';
+export const backendURL = 'http://ec2-44-202-32-243.compute-1.amazonaws.com:65435/';
 
 export default class SendHTTPRequest extends React.Component {
     state = {
