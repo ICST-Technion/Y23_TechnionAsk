@@ -18,7 +18,7 @@ import { t } from "./i18n"
 
 import { writingColor } from "../styles";
 
-export const backendURL = 'http://ec2-44-202-32-243.compute-1.amazonaws.com:65435/';
+export const backendURL = 'http://ec2-44-212-18-109.compute-1.amazonaws.com:65435/';
 
 export default class SendHTTPRequest extends React.Component {
     state = {
@@ -36,7 +36,7 @@ export default class SendHTTPRequest extends React.Component {
         if(this.props.data['email'] == 'Test123')
         return 'Admin View Page'
       if('email' in this.props.data && 'admin' in this.props.data && this.props.data['admin'] == true) {
-          return 'Admin View Page';
+	  return 'Admin View Page';
       }
       return 'Search Page';
     }
@@ -80,11 +80,11 @@ export default class SendHTTPRequest extends React.Component {
     *   structure should be "?'field1'='encoded URI component of value1' &'field2' = 'encoded URI component of value2'"
     * Used for Sign up or Login specifically
     */
-    getNLPData = (route, paramList = "") => {
+    async getNLPData (route, paramList = "") {
         if (route == "" || route == undefined)
             return;
         this.setState({ loading: true });
-        fetch(backendURL+route+paramList)
+	await fetch(backendURL+route+paramList)
         // The option above sends Email and Password as parameters, 
         // the option below sends them in a json body, uncomment in backend adding headers
         //  ,{
