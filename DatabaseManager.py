@@ -60,6 +60,7 @@ class DatabaseManager:
           cur = self.get_cursor()
           query = "SELECT " + to_select_arg + " FROM " + table_name + " WHERE " + where_arg
           psycopg2.extensions.register_type(psycopg2.extensions.UNICODE, cur)
+          print(query)
           cur.execute(query)
           result = cur.fetchall()
           if result:
@@ -72,6 +73,26 @@ class DatabaseManager:
           cur.close()
           return res
 
+  def update(self, table, column, new_value, condition_column, condition_value):
+      # Create a cursor object to interact with the database
+      cur = self.get_cursor()
+      try:
+          # Prepare the SQL query to update the value
+          query = f"UPDATE {table} SET {column} = %s WHERE {condition_column} = %s"
+            
+          psycopg2.extensions.register_type(psycopg2.extensions.UNICODE, cur)
+          # Execute the query with the provided values
+          cur.execute(query, (new_value, condition_value))
+          print(query)           
+          # Commit the changes to the database
+          self.commit()
+            
+          print(f"Value updated successfully in table '{table}'!")
+      except (Exception, psycopg2.Error) as error:
+          print("Error updating value:", error)
+      finally:
+          # Close the cursor and connection
+          cur.close()
 
   def delete(self):
       #TODO

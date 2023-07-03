@@ -20,10 +20,26 @@ class UserManager:
             if user_password[0] == password:
                 return True
         return False
+    
+    def isBlocked(self, name):
+        result = self.db_manager.select('accounts', "username = '" + name + "'", 'blocked')
+        return result[0]
+
+    def setBlocked(self, name, value):
+        self.db_manager.update('accounts', 'blocked', value, 'username', name)
+        return
+    
+    def isAdmin(self, name):
+        result = self.db_manager.select('accounts', "username = '" + name + "'", 'admin')
+        return result[0]
+
+    def setAdmin(self, name, value):
+        self.db_manager.update('accounts', 'admin', value, 'username', name)
+        return
 
     #Lara - Adding for Admin View test
     def getAllDBUsers(self):
-        return self.db_manager.select('accounts', 'True', '(username, password)')
+        return self.db_manager.select('accounts', 'True ORDER BY userid', '(username, admin, blocked)')
 
     def getUsername(self, userId):
         user_name = self.db_manager.select('accounts', "userid = '" + userId + "'", 'username')

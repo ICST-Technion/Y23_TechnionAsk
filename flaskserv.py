@@ -1,5 +1,6 @@
 # import main Flask class and request object
 from flask import Flask, request, jsonify
+import re
 from googletrans import Translator
 import DatabaseManager, HistoryManager, UserManager
 from NLPWrapper import NLPWrapper
@@ -23,6 +24,10 @@ def jsonResponse(stringData):
     # response.headers.add('Access-Control-Allow-Methods', 'GET, POST, OPTIONS')
     # response.headers.add('Access-Control-Allow-Headers', 'Content-Type')
     return response
+
+def keep_letters_until_space(string):
+    result = re.findall(r'^[^\s]+', string)
+    return result[0] if result else ""
 
 @app.route('/testlogin')
 def userTest():
@@ -58,8 +63,14 @@ def login():
     username = request.args.get("username")
     userPassword = request.args.get("password")
     result = user_manager.authenticateUser(username, userPassword)
+    is_admin = False
+    if result:
+        print(user_manager.isAdmin(username))
+        is_admin = True if user_manager.isAdmin(username) else False
     print(result)
-    return jsonResponse({'data' : 'login', 'result' : result})
+    print(is_admin)
+    print(jsonResponse({'data' : 'login', 'result' : result, 'admin' : is_admin, 'email': username}))
+    return jsonResponse({'data' : 'login', 'result' : result, 'admin' : 'test', 'email': username})
 
 @app.route('/search/<username>/<service>/<query>')
 def search(username, service, query):
@@ -122,7 +133,11 @@ def getAllUsers():
     users = (user_manager.getAllDBUsers())
     for i in range(len(users)):
         users[i] = (users[i][1:len(users[i])-1].replace("\"", "")).split(',')
-    return jsonResponse({'data' : 'getAllUsers', 'tableHead': ['Username', 'Privileges', 'Status'] ,'result' : fixedUsers})
+        users[i][0] = keep_letters_until_space(users[i][0])
+        print(users[i])
+        users[i][1] = False if users[i][1] == 'f' else True
+        users[i][2] = 'Blocked' if users[i][2] == 't' else 'Active'
+    return jsonResponse({'data' : 'getAllUsers', 'tableHead': ['Username', 'Privileges', 'Status'] ,'result' : users})
 
 @app.route('/getAllHistory')
 def getAllHistory():
@@ -143,29 +158,33 @@ def getAllHistory():
 def changeAccess():
     data = request.args
     userToChange = data.get('username')
+    new_blocked_value = False if user_manager.isBlocked(userToChange) else True
+    user_manager.setBlocked(userToChange, new_blocked_value)
     # adminBlocking = data.get('adminBlocking')
     # Lara TODO add check userToBlock is not client
     # Add admin check
     # Change in database
-    for user in fixedUsers:
-        if user[0] == userToChange:
-            if user[2] == "Blocked":
-                user[2] = "Active"
-            else:
-                user[2] = "Blocked"
+    # for user in fixedUsers:
+    #     if user[0] == userToChange:
+    #         if user[2] == "Blocked":
+    #             user[2] = "Active"
+    #         else:
+    #             user[2] = "Blocked"
     return jsonResponse({'data' : 'changeAccess', 'result' : True})
 
 @app.route('/changePrivilege')
 def changePrivilege():
     data = request.args
     userToChange = data.get('username')
+    new_admin_value = False if user_manager.isAdmin(userToChange) else True
+    user_manager.setAdmin(userToChange, new_admin_value)
     # adminBlocking = data.get('adminBlocking')
     # Lara TODO add check userToChange is not client
     # Add admin check
     # Change in database
-    for user in fixedUsers:
-        if user[0] == userToChange:
-            user[1] = not user[1]
+    # for user in fixedUsers:
+    #     if user[0] == userToChange:
+    #         user[1] = not user[1]
     return jsonResponse({'data' : 'changePrivilege', 'result' : True})
 
 
