@@ -6,13 +6,11 @@ import WelcomePage from '../screens/WelcomePage';
 import Home from '../screens/HomePage';
 import LoginPage from '../screens/LoginPage';
 import SignUpPage from '../screens/SignUpPage';
-import SearchPage from '../screens/SearchPage';
 import ForgotPasswordPage from '../screens/ForgotPasswordPage';
 import ChatScreen from '../screens/chatStyle';
 import AdminView from '../screens/AdminView';
 import { useTranslation } from 'react-i18next';
-import { Platform } from 'react-native';
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
+import AdminSettings from '../screens/AdminSettings';
 
 const Stack = createNativeStackNavigator();
 
@@ -29,6 +27,7 @@ const MainStackNavigator = () => {
             <Stack.Screen name="Forgot Password Page" component={ForgotPasswordPage} />
             <Stack.Screen name="Search Page" component={ChatScreen} />
             <Stack.Screen name="Admin View Page" component={AdminView} />
+            <Stack.Screen name="Admin Settings Page" component={AdminSettings} />
           </Stack.Navigator>
       );
 }

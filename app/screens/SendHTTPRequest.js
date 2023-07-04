@@ -28,9 +28,11 @@ export default class SendHTTPRequest extends React.Component {
     }
 
     //Login Check
-    authenticateEmailCredentials = (username, password) => {
+    async authenticateEmailCredentials (username, password) {
         if (username == "" || password == "") { return; }
-        return this.getNLPData("login", '?username=' + encodeURIComponent(username) + "&password=" + encodeURIComponent(password));
+        await this.getNLPData("login", '?username=' + encodeURIComponent(username) + "&password=" + encodeURIComponent(password));
+        if('result' in this.state.data && this.state.data['result'])
+            this.props.data['navigation'].navigate(this.CheckIfAdmin(), { 'email': this.props.data['email'] });
     }
     CheckIfAdmin = () => {
         if(this.props.data['email'] == 'Test123')
@@ -83,8 +85,13 @@ export default class SendHTTPRequest extends React.Component {
     async getNLPData (route, paramList = "") {
         if (route == "" || route == undefined)
             return;
+<<<<<<< Updated upstream
         this.setState({ loading: true });
 	await fetch(backendURL+route+paramList)
+=======
+        this.setState({ loading: true , data: ''});
+        await fetch(backendURL+route+paramList)
+>>>>>>> Stashed changes
         // The option above sends Email and Password as parameters, 
         // the option below sends them in a json body, uncomment in backend adding headers
         //  ,{
@@ -147,7 +154,7 @@ export default class SendHTTPRequest extends React.Component {
                         <Text style={{color: writingColor}}>{t("Don't have an account? Sign up")}</Text>
                     </TouchableOpacity>
                     <this.animationLoading />
-                    {this.state.data['data'] == 'login' && 'result' in this.state.data ? (this.state.data['result'] ? this.props.data['navigation'].navigate(this.CheckIfAdmin(), { 'email': this.props.data['email'] }) : <Text style={styles.errorColor}>Wrong Credentials</Text>) : null}
+                    {this.state.data['data'] == 'login' && 'result' in this.state.data && !this.state.data['result']?  <Text style={styles.errorColor}>Wrong Credentials</Text>: null}
                     {this.state.data['data'] == 'Error' ?  <Text  style={styles.errorColor}>Error occurred, please try again later</Text>: null}
                 </View>
             );

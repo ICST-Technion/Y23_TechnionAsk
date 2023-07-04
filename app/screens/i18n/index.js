@@ -47,6 +47,7 @@ const resources = {
             "Unblock" : "Unblock",
             "Make Admin" : "Make Admin",
             "Strip Admin" : "Strip Admin",
+            "Saving settings action was unsuccessful\nOld values are restored": "Saving settings action was unsuccessful\nOld values are restored",
         }
     },
     he: {
@@ -91,6 +92,7 @@ const resources = {
             "Unblock" : "לבטל חסימה",
             "Make Admin" : "להפוך למנהל",
             "Strip Admin" : "להסיר מנהל",
+            "Saving settings action was unsuccessful\nOld values are restored": "שמירת שינוי ההגדרות לא הצליח\nערכים קודמים שוחזרו",
         }
     }
 };

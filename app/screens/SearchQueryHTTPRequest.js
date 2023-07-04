@@ -57,8 +57,8 @@ export default class SearchQueryHTTPRequest extends React.Component {
         if("user" == "" || query == "" || route == "" || answerByService == "" || route == undefined)
             return;
         this.setState({loading : true});
-	await fetch(backendURL+route+"/"+user+"/"+answerByService+"/"+query)
-	//await fetch(backendURL+route+"/"+user+"/"+query+"/"+answerByService)
+	    await fetch(backendURL+route+"/"+user+"/"+answerByService+"/"+query)
+	    //await fetch(backendURL+route+"/"+user+"/"+query+"/"+answerByService)
         //await fetch(backendURL+route+"/"+user+"/"+query+"/"+answerService)
         .then((response) => response.json())
         .then((responseJson) => {
