@@ -25,7 +25,7 @@ export default function WelcomePage({ navigation }) {
       {/* Welcome to TechnionAsk */}
       {t("Welcome to TechnionAsk")}
       </Text>
-      <TouchableOpacity onPress={() => navigation.navigate('Admin View Page')}>
+      <TouchableOpacity onPress={() => navigation.navigate('Login Page')}>
         <Text style={writingDirAlign({color: writingColor})}>
         {/* Login */}
         {t("Login")}

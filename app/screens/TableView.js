@@ -42,6 +42,19 @@ export default class TableView extends Component {
     if (route == "" || route == undefined)
         return;
     await fetch(backendURL+route)
+    // The option above sends Email and Password as parameters, 
+    // the option below sends them in a json body, uncomment in backend adding headers
+    //  ,{
+    //     method: 'OPTIONS',
+    //     headers: {
+    //         'Accept': 'application/json',
+    //         'Content-Type': 'application/json'
+    //     },
+    //     body: JSON.stringify({
+    //         username: this.props.data['email'],
+    //         password: this.props.data['password'],
+    //     })
+    // })
     .then((response) => response.json())
     .then((responseJson) => {
       let newTableHead = this.state.request=="UsersView"?  this.adjustUserHeader(responseJson['tableHead'], this.getColumnID(responseJson['tableHead'], 'Status'), this.getColumnID(responseJson['tableHead'], 'Privileges')) : responseJson['tableHead'];
