@@ -4,18 +4,32 @@ from NLPService import NLPService
 # OpenAI API credentials
 tmp = 'sk-nALIG6Z891FUu7n5w' + 'MYsT3BlbkFJKETagi' + 'SbibvwIHu8RMRc'
 
-def_context = "For the next question, i want you to provide links for the answers(URL sources)\nUser:"
+
+def_context = "For the next question, i want you to provide links for the answers(URL sources), first provide the answer and then an empty line and then the word ' Sources:' and then the sources in a seperate new line\nUser:"
 def_question = "What was the exact date that the second world war occurred in?"
 
 class ChatGPTService(NLPService):
     def __init__(self, history_manager):
         NLPService.__init__(self, "ChatGPT", history_manager)
-        openai.api_key = tmp
+        with open("api_key.txt", "r") as key_file:
+            openai.api_key = key_file.read().strip()
 
     def search_eng(self, userid, query):
-        answered = self.ask_question(query)
-        answerResponse = {'data' : 'search', 'user' : userid, 'question' : query, 'answer' : answered, 'Sources' : "ChatGPT"}
+        answer, sources = self.ask_question(query)
+        answerResponse = {'data' : 'search', 'user' : userid, 'question' : query, 'answer' : answer, 'Sources' : sources}
         return self.jsonResponse(answerResponse)
+
+    def separate_answer_and_sources(self, answer):
+        sources_start = "Sources:"
+        
+        # Find the index where the answer and sources start
+        sources_index = answer.find(sources_start)
+        
+        # Extract the answer and sources from the input string
+        answer_text = answer[:sources_index].strip()
+        sources_text = answer[sources_index + len(sources_start):].strip()
+        
+        return answer_text, sources_text
 
     # Define a function to ask questions
     def ask_question(self, question, context=def_context):
@@ -27,8 +41,8 @@ class ChatGPTService(NLPService):
             stop=None,
             temperature=0.7
         )
-        answer = response.choices[0].text.strip()
-        return answer
+        returned_answer = response.choices[0].text.strip()
+        return self.separate_answer_and_sources(returned_answer)
 
 # # Provide the context and question
 # #context = "The following is a conversation between a user and a language model.\n\nUser: What are the benefits of exercise?\nAI: Exercise has numerous benefits such as improving physical health, boosting mood, and increasing energy levels.\nUser: What types of exercises should I do?\nAI: The type of exercise you should do depends on your fitness goals. Some common types include cardio exercises like running or swimming, strength training exercises like weightlifting, and flexibility exercises like yoga.\nUser:"

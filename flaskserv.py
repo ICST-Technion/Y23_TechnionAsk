@@ -12,6 +12,9 @@ history_manager = None
 user_manager = None
 chatgpt_instance = None
 nlpwrapper_instance = None
+login_enabled = True
+signup_enabled = True
+search_enabled = True
 
 fixedUsers = [['Test123', True, 'Blocked'],
           ['MalikKhalaf', True, 'Active'],
@@ -60,6 +63,8 @@ def signup():
 def login():
     #send a request to User service
     # database_manager.insert('accounts', "(10, 'Test')")
+    if not login_enabled:
+        return jsonResponse({'data': 'login', 'result' : False})
     username = request.args.get("username")
     userPassword = request.args.get("password")
     result = user_manager.authenticateUser(username, userPassword)
@@ -67,10 +72,8 @@ def login():
     if result:
         print(user_manager.isAdmin(username))
         is_admin = True if user_manager.isAdmin(username) else False
-    print(result)
-    print(is_admin)
     print(jsonResponse({'data' : 'login', 'result' : result, 'admin' : is_admin, 'email': username}))
-    return jsonResponse({'data' : 'login', 'result' : result, 'admin' : 'test', 'email': username})
+    return jsonResponse({'data' : 'login', 'result' : result, 'admin' : is_admin, 'email': username})
 
 @app.route('/search/<username>/<service>/<query>')
 def search(username, service, query):
