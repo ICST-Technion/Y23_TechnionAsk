@@ -18,7 +18,7 @@ import { t } from "./i18n"
 
 import { writingColor } from "../styles";
 
-export const backendURL = 'http://ec2-44-212-18-109.compute-1.amazonaws.com:65435/';
+export const backendURL = 'http://ec2-54-167-238-53.compute-1.amazonaws.com:65435/';
 
 export default class SendHTTPRequest extends React.Component {
     state = {
@@ -28,17 +28,24 @@ export default class SendHTTPRequest extends React.Component {
     }
 
     //Login Check
-    authenticateEmailCredentials = (username, password) => {
-        if (username == "" || password == "") { return; }
-        return this.getNLPData("login", '?username=' + encodeURIComponent(username) + "&password=" + encodeURIComponent(password));
-    }
     CheckIfAdmin = () => {
-        if(this.props.data['email'] == 'Test123')
-        return 'Admin View Page'
-      if('email' in this.props.data && 'admin' in this.props.data && this.props.data['admin'] == true) {
-	  return 'Admin View Page';
-      }
-      return 'Search Page';
+        if(this.props.data['email'] == 'Test123'){
+            return 'Admin View Page'
+        }
+        if('email' in this.state.data && 'admin' in this.state.data && this.state.data['admin'] == true) {
+            return 'Admin View Page';
+        }
+        return 'Search Page';
+    }
+    authenticateEmailCredentials = async (username, password) => {
+        if (username == "" || password == "") { 
+            return; 
+        }
+        await this.getNLPData("login", '?username=' + encodeURIComponent(username) + "&password=" + encodeURIComponent(password));
+        if(this.state.data['result'])
+        {
+            this.props.data['navigation'].navigate(this.CheckIfAdmin(), { 'email': this.props.data['email'] })
+        }
     }
 
     //Loading Animation
@@ -83,8 +90,8 @@ export default class SendHTTPRequest extends React.Component {
     async getNLPData (route, paramList = "") {
         if (route == "" || route == undefined)
             return;
-        this.setState({ loading: true });
-	await fetch(backendURL+route+paramList)
+        this.setState({ loading: true , data: ''});
+	    await fetch(backendURL+route+paramList)
         // The option above sends Email and Password as parameters, 
         // the option below sends them in a json body, uncomment in backend adding headers
         //  ,{
@@ -105,7 +112,6 @@ export default class SendHTTPRequest extends React.Component {
                 query: this.state.query,
                 loading: false
             })
-            return this.state.data['data'];
         })
         .catch(error => {
             this.setState({ loading: false });
@@ -140,14 +146,14 @@ export default class SendHTTPRequest extends React.Component {
         if (this.props.data['httpRequestType'] == 'Login') {
             return (
                 <View style={styles.alignment}>
-                    <TouchableOpacity style={styles.login_button} onPress={() => { this.authenticateEmailCredentials(this.props.data['email'], this.props.data['password']) }}>
+                    <TouchableOpacity style={styles.login_button} onPress={() => { this.authenticateEmailCredentials(this.props.data['email'], this.props.data['password']);}}>
                         <Text style={{color: '#fff'}}>{t("Login")}</Text>
                     </TouchableOpacity>
                     <TouchableOpacity onPress={() => this.props.data['navigation'].navigate('Sign up Page')}>
                         <Text style={{color: writingColor}}>{t("Don't have an account? Sign up")}</Text>
                     </TouchableOpacity>
                     <this.animationLoading />
-                    {this.state.data['data'] == 'login' && 'result' in this.state.data ? (this.state.data['result'] ? this.props.data['navigation'].navigate(this.CheckIfAdmin(), { 'email': this.props.data['email'] }) : <Text style={styles.errorColor}>Wrong Credentials</Text>) : null}
+                    {this.state.data['data'] == 'login' && 'result' in this.state.data && !this.state.data['result'] ? <Text style={styles.errorColor}>Wrong Credentials</Text> : null}
                     {this.state.data['data'] == 'Error' ?  <Text  style={styles.errorColor}>Error occurred, please try again later</Text>: null}
                 </View>
             );
