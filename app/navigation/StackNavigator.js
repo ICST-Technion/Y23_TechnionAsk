@@ -1,6 +1,5 @@
 //Navigation import
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { Button, Image, Text, TouchableOpacity } from 'react-native';
 
 import WelcomePage from '../screens/WelcomePage';
 import Home from '../screens/HomePage';
@@ -11,8 +10,6 @@ import ForgotPasswordPage from '../screens/ForgotPasswordPage';
 import ChatScreen from '../screens/chatStyle';
 import AdminView from '../screens/AdminView';
 import { useTranslation } from 'react-i18next';
-import { Platform } from 'react-native';
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 
 const Stack = createNativeStackNavigator();
 

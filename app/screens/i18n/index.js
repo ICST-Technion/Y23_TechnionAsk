@@ -47,6 +47,11 @@ const resources = {
             "Unblock" : "Unblock",
             "Make Admin" : "Make Admin",
             "Strip Admin" : "Strip Admin",
+            "Admin Settings" : "Admin Settings",
+            "Saving settings action was unsuccessful\nOld values are restored" : "Saving settings action was unsuccessful\nOld values are restored",
+            "User": "User",
+            "Question": "Question",
+            "Answer" : "Answer",
         }
     },
     he: {
@@ -91,6 +96,11 @@ const resources = {
             "Unblock" : "לבטל חסימה",
             "Make Admin" : "להפוך למנהל",
             "Strip Admin" : "להסיר מנהל",
+            "Admin Settings" : "הגדרות מנהל",
+            "Saving settings action was unsuccessful\nOld values are restored" : "שמירת הגדרות לא הצליח\nערכים קודמים שוחזרו",
+            "User": "שם משתמש",
+            "Question": "שאלה",
+            "Answer" : "תשובה",
         }
     }
 };

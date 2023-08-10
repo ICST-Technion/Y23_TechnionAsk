@@ -13,6 +13,7 @@ import {
 import { useTranslation } from "react-i18next";
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import TableView from "./TableView";
+import AdminSettings from "./AdminSettings";
 
 export default function AdminView({ navigation, route  }) {
 
@@ -29,11 +30,16 @@ export default function AdminView({ navigation, route  }) {
   })
   return (
     <View style={styles.outterContainer}>
-      <TouchableOpacity style={styles.side_button} 
-        onPress={() => navigation.navigate('Search Page', {'email': route.params?.email })}>
-        <Text style={writingDirAlign({color: '#b88d20', height: 20, justifyContent: 'center', alignItems: 'center'})} > {t("Move on to Chat")}   </Text>
-        <MaterialCommunityIcons name='chat' style={{transform: [{scaleX: i18n.dir() == 'rtl'? -1 : 1}],}} size={50} color='#b88d20'/>
-      </TouchableOpacity>
+      <View style={{flexDirection: 'row-reverse', justifyContent: 'space-between'}}>
+        <TouchableOpacity style={styles.side_button} 
+          onPress={() => navigation.navigate('Search Page', {'email': route.params?.email })}>
+          <Text style={writingDirAlign({color: '#b88d20', height: 20, justifyContent: 'center', alignItems: 'center'})} > {t("Move on to Chat")}   </Text>
+          <MaterialCommunityIcons name='chat' style={{transform: [{scaleX: i18n.dir() == 'rtl'? -1 : 1}],}} size={50} color='#b88d20'/>
+        </TouchableOpacity>
+
+        <AdminSettings/>
+      </View>
+
       <View style={styles.alignment}>
         <Image style={styles.logo} source={require("../../assets/logo.png")} /> 
       </View>
