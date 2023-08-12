@@ -37,7 +37,7 @@ export default function AdminView({ navigation, route  }) {
           <MaterialCommunityIcons name='chat' style={{transform: [{scaleX: i18n.dir() == 'rtl'? -1 : 1}],}} size={50} color='#b88d20'/>
         </TouchableOpacity>
 
-        <AdminSettings/>
+        <AdminSettings  data={{'username': route.params?.email}}/>
       </View>
 
       <View style={styles.alignment}>

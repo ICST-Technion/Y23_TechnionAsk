@@ -4,28 +4,45 @@ import {Modal, Switch, Text, TouchableOpacity, View, Animated} from 'react-nativ
 import { backendURL } from './SendHTTPRequest';
 import { useTranslation } from "react-i18next";
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
+var adminSettings = {};
+
 async function getNLPData  (route, t) {
     if (route == "" || route == undefined)
         return;
     await fetch(backendURL+route)
     .then((response) => response.json())
     .then((responseJson) => {
-        if(!responseJson['result'])
+        if(!( route.startsWith("viewAdminSettings")) && !responseJson['result'])
         {alert(t("Saving settings action was unsuccessful\nOld values are restored"));}
+        if(route.startsWith("viewAdminSettings") && responseJson['result'] == true) {
+          adminSettings = ({'result' : true, 'login' : responseJson['login_enabled'], 'signup' : responseJson['signup_enabled']});
+        }
+        if(route.startsWith('viewAdminSettings') && responseJson['result'] == false)
+        {
+          adminSettings = ({'error' : 'error'});
+        }
     })
     .catch(error => {
         alert(error);
     });
+    return adminSettings;
 }
 
-const AdminSettings = () => {
+const AdminSettings = ({data}) => {
   const { t, i18n } = useTranslation();
   const [modalVisible, setModalVisible] = useState(false);
-  const [isEnabledLogin, setIsEnabledLogin] = useState(false);
+  const [isEnabledLogin, setIsEnabledLogin] = useState('login' in adminSettings? adminSettings['login'] : false);
   const toggleLoginSwitch = () => setIsEnabledLogin(previousState => !previousState);
-  const [isEnabledSignUp, setIsEnabledSignUp] = useState(false);
+  const [isEnabledSignUp, setIsEnabledSignUp] = useState('signup' in adminSettings? adminSettings['signup'] : false);
   const toggleSignUpSwitch = () => setIsEnabledSignUp(previousState => !previousState);
-
+  const handleSettingsFetch = async () => {
+    const fetchedAdminSettings = await getNLPData("viewAdminSettings" + '?username=' + encodeURIComponent(data['username']), t);
+    if ('result' in fetchedAdminSettings && fetchedAdminSettings['result']) {
+      setIsEnabledLogin(fetchedAdminSettings['login']);
+      setIsEnabledSignUp(fetchedAdminSettings['signup']);
+      setModalVisible(true);
+    }
+  };
   return (
     <View>
       <Modal style={styles.container}
@@ -57,7 +74,7 @@ const AdminSettings = () => {
                 />
             </View>
             <TouchableOpacity
-              onPress={() => {alert("ChangeAdminSettings" + '?loginEnabled=' + encodeURIComponent(isEnabledLogin) + "&signUpEnabled=" + encodeURIComponent(isEnabledSignUp)); setModalVisible(!modalVisible);}}>
+              onPress={() => {getNLPData("changeAdminSettings" + '?loginEnabled=' + encodeURIComponent(isEnabledLogin) + "&signupEnabled=" + encodeURIComponent(isEnabledSignUp)); setModalVisible(!modalVisible);}}>
               <Text style={{fontSize: 15}}>Save</Text>
             </TouchableOpacity>
             <TouchableOpacity
@@ -68,7 +85,8 @@ const AdminSettings = () => {
         </View>
       </Modal>
       <TouchableOpacity style={styles.otherside_button}
-        onPress={() => setModalVisible(true)}>
+        onPress={async () => {
+          await handleSettingsFetch()}}>
           <MaterialIcons name='settings' style={{margin: 10}} size={40} color='#b88d20'/>
       </TouchableOpacity>
     </View>

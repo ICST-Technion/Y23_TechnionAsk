@@ -33,6 +33,8 @@ export default class TableView extends Component {
       filterAns: "",
       filterPriv: "",
       filterStatus: "",
+      filterOperator: 'And', // Default operator
+      filterMode: 'includes', // Default mode
       request: this.props.data['request'],
       initialize: false,
       loading: false,
@@ -86,6 +88,29 @@ export default class TableView extends Component {
     .catch(error => {
         this.setState({data: {'data' : 'Error'}})
     });
+  }
+  filterItemStatus = (item, filter) => {
+    if(this.state.filterMode == 'includes')
+      return item.toLowerCase().includes(filter.toLowerCase());
+    return item.toLowerCase().startsWith(filter.toLowerCase());
+  }
+  filterAllMatch = (itemsArray, filtersArray) =>
+  {
+    for(var i = 0; i < itemsArray.length; i++)
+    {
+      if( filtersArray[i] != '' && !this.filterItemStatus(itemsArray[i], filtersArray[i]))
+        return false;
+    }
+    return true;
+  }
+  filterAnyMatch = (itemsArray, filtersArray) =>
+  {
+    for(var i = 0; i < itemsArray.length; i++)
+    {
+      if(filtersArray[i] != '' && this.filterItemStatus(itemsArray[i], filtersArray[i]))
+        return true;
+    }
+    return false;
   }
   getColumnID = (tableHead, name) => {
     const state = this.state;
@@ -150,12 +175,16 @@ export default class TableView extends Component {
     const userColumn = this.getColumnID(state.tableHead, 'Username');
     const quesColumn = this.getColumnID(state.tableHead, 'Question');
     const ansColumn = this.getColumnID(state.tableHead, 'Answer');
+    let filterAllMatch = this.filterAllMatch.bind(this);
+    let filterAnyMatch = this.filterAnyMatch.bind(this);
     return state.tableData
     .filter(function(item){
       if(state.filterUser == "" && state.filterQues == "" && state.filterAns == "") {
         return true;
       }
-      if((item[userColumn].toLowerCase()).includes((state.filterUser).toLowerCase()) && (item[quesColumn].toLowerCase()).includes((state.filterQues).toLowerCase()) && (item[ansColumn].toLowerCase()).includes((state.filterAns).toLowerCase()))
+      var itemsArray = [item[userColumn], item[quesColumn], item[ansColumn]];
+      var filtersArray = [state.filterUser, state.filterQues, state.filterAns]
+      if((state.filterOperator == 'And' && filterAllMatch(itemsArray, filtersArray)) || (state.filterOperator == 'Or' && this.filterAnyMatch(itemsArray, filtersArray)))
           return true;
       return false;
     })
@@ -165,12 +194,16 @@ export default class TableView extends Component {
     const userColumn = this.getColumnID(state.tableHead, 'Username');
     const privColumn = this.getColumnID(state.tableHead, 'Privileges');
     const statColumn = this.getColumnID(state.tableHead, 'Status');
+    let filterAllMatch = this.filterAllMatch.bind(this);
+    let filterAnyMatch = this.filterAnyMatch.bind(this);
     return state.tableData
     .filter(function(item){
       if(state.filterUser == "" && state.filterPriv == "" && state.filterStatus == "") {
         return true;
       }
-      if((item[userColumn].toLowerCase()).includes((state.filterUser).toLowerCase()) && (item[privColumn].toLowerCase()).includes((state.filterPriv).toLowerCase()) && (item[statColumn].toLowerCase()).includes((state.filterStatus).toLowerCase()))
+      var itemsArray = [item[userColumn], item[privColumn], item[statColumn]];
+      var filtersArray = [state.filterUser, state.filterPriv, state.filterStatus];
+      if((state.filterOperator == 'And' && filterAllMatch(itemsArray, filtersArray)) || (state.filterOperator == 'Or' && filterAnyMatch(itemsArray, filtersArray)))
           return true;
       return false;
     })
@@ -203,7 +236,7 @@ export default class TableView extends Component {
       <View style={{ padding: 20, backgroundColor: '#ececec' , direction: i18n.dir()}}>
         {state.initialize? 
         <View>
-        <ExcelExport data = {{'data' : [this.state.data['tableHead'], ...this.adjustExcelData(this.state.data['result'], this.state.tableHead)], 'request' : this.state.request}}/>
+        <ExcelExport data = {{'data' : [this.state.data['tableHead'], ...this.adjustExcelData(this.state.data['result'], this.state.tableHead)], 'request' : this.state.request, 't': t}}/>
         
         <View style={{flexDirection: 'row', paddingBottom: 10}}> <Text>{t("Filter")}</Text>
         <Text>  {t("User")}: </Text>
@@ -227,6 +260,23 @@ export default class TableView extends Component {
         </View>
         
         }
+        { /* Filter Operator */}
+        <Text style={{alignSelf: 'center'}}> {t("Filter Operator")}: </Text>
+        <TouchableOpacity onPress={() => this.setState({ filterOperator: 'And' })} style={{ marginHorizontal: 10, backgroundColor: this.state.filterOperator === 'And' ? '#b88d20' : '#f0f0f0', paddingVertical: 5, paddingHorizontal: 10, borderRadius: 5 }}>
+          <Text style={{ color: this.state.filterOperator === 'And' ? '#fff' : '#000' }}>{t("And")}</Text>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => this.setState({ filterOperator: 'Or' })} style={{ backgroundColor: this.state.filterOperator === 'Or' ? '#b88d20' : '#f0f0f0', paddingVertical: 5, paddingHorizontal: 10, borderRadius: 5 }}>
+          <Text style={{ color: this.state.filterOperator === 'Or' ? '#fff' : '#000' }}>{t("Or")}</Text>
+        </TouchableOpacity>
+        { /* Filter Mode*/}
+        <Text style={{alignSelf: 'center'}}> {t("Filter Mode")}: </Text>
+        <TouchableOpacity onPress={() => this.setState({ filterMode: 'includes' })} style={{ marginHorizontal: 10, backgroundColor: this.state.filterMode === 'includes' ? '#b88d20' : '#f0f0f0', paddingVertical: 5, paddingHorizontal: 10, borderRadius: 5 }}>
+          <Text style={{ color: this.state.filterMode === 'includes' ? '#fff' : '#000' }}>{t("includes")}</Text>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => this.setState({ filterMode: 'starts with' })} style={{ backgroundColor: this.state.filterMode === 'starts with' ? '#b88d20' : '#f0f0f0', paddingVertical: 5, paddingHorizontal: 10, borderRadius: 5 }}>
+          <Text style={{ color: this.state.filterMode === 'starts with' ? '#fff' : '#000' }}>{t("starts with")}</Text>
+        </TouchableOpacity>
+
         </View>
         <TablePagination data={{'tableHead': state.tableHead, 'tableData' : this.filteredElements()}}/>
         </View>  : <View></View>}

@@ -138,7 +138,7 @@ export default class SendHTTPRequest extends React.Component {
                         <Text  style={{color: writingColor}}>{t("Already have an account? Login")}</Text>
                     </TouchableOpacity>
                     <this.animationLoading />
-                    {this.state.data['data'] == 'sign-up' && 'result' in this.state.data ? (this.state.data['result'] == 'Successfully registered' ? this.props.data['navigation'].navigate('Search Page', { 'email': this.props.data['email'] }) : <Text style={styles.errorColor}>Unable to sign up with given credentials</Text>) : null}
+                    {this.state.data['data'] == 'signup' && 'result' in this.state.data ? (this.state.data['result'] ? this.props.data['navigation'].navigate('Search Page', { 'email': this.props.data['email'] }) : <Text style={styles.errorColor}>{'error' in this.state.data? this.state.data['error'] + ' Try again later' : 'Unable to sign up with given credentials'}</Text>) : null}
                     {this.state.data['data'] == 'Error' ?  <Text  style={styles.errorColor}>Error occurred, please try again later</Text>: null}
                 </View>
             );
@@ -153,7 +153,7 @@ export default class SendHTTPRequest extends React.Component {
                         <Text style={{color: writingColor}}>{t("Don't have an account? Sign up")}</Text>
                     </TouchableOpacity>
                     <this.animationLoading />
-                    {this.state.data['data'] == 'login' && 'result' in this.state.data && !this.state.data['result'] ? <Text style={styles.errorColor}>Wrong Credentials</Text> : null}
+                    {this.state.data['data'] == 'login' && 'result' in this.state.data && !this.state.data['result'] ? <Text style={styles.errorColor}>{'error' in this.state.data? this.state.data['error'] + ' Try again later' : 'Wrong Credentials'}</Text> : null}
                     {this.state.data['data'] == 'Error' ?  <Text  style={styles.errorColor}>Error occurred, please try again later</Text>: null}
                 </View>
             );

@@ -52,6 +52,13 @@ const resources = {
             "User": "User",
             "Question": "Question",
             "Answer" : "Answer",
+            "Filter Operator" : "Filter Operator",
+            "Filter Mode" : "Filter Mode",
+            "includes" : "Includes",
+            "starts with" : "Starts with",
+            "And" : "And",
+            "Or" : "Or",
+            "Export Data" : "Export Data",
         }
     },
     he: {
@@ -101,6 +108,13 @@ const resources = {
             "User": "שם משתמש",
             "Question": "שאלה",
             "Answer" : "תשובה",
+            "Filter Operator" : "אופרטור סינון",
+            "Filter Mode" : "סינון עם",
+            "includes" : "כולל",
+            "starts with" : "מתחיל ב",
+            "And" : "גם",
+            "Or" : "או",
+            "Export Data" : "ייצוא מידע",
         }
     }
 };
