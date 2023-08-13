@@ -46,16 +46,18 @@ def userTest():
 
 @app.route('/signup')
 def signup():
+    if not signup_enabled:
+        return jsonResponse({'data' : 'signup', 'result' : False, 'error' : 'Signup disabled!'})
     username = request.args.get("username")
     userPassword = request.args.get("password")
     userid = user_manager.getUserId(username)
     if userid is not None: #username already exists
         # return 'This account already exists'
-        return jsonResponse({'data' : 'sign-up', 'result' : 'This account already exists'})
+        return jsonResponse({'data' : 'sign-up', 'result' : False, 'error' : 'Username already exists!'})
         #jsonResponse({'data': 'signup', 'result': False})
     user_manager.insertUser(username, userPassword)
     # return 'Successfully registered'
-    return jsonResponse({'data' : 'sign-up', 'result' : 'Successfully registered'})
+    return jsonResponse({'data' : 'sign-up', 'result' : True})
     #jsonResponse({'data': 'signup', 'result': True})
 
 
@@ -63,8 +65,6 @@ def signup():
 def login():
     #send a request to User service
     # database_manager.insert('accounts', "(10, 'Test')")
-    if not login_enabled:
-        return jsonResponse({'data': 'login', 'result' : False})
     username = request.args.get("username")
     userPassword = request.args.get("password")
     result = user_manager.authenticateUser(username, userPassword)
@@ -73,6 +73,8 @@ def login():
         print(user_manager.isAdmin(username))
         is_admin = True if user_manager.isAdmin(username) else False
     print(jsonResponse({'data' : 'login', 'result' : result, 'admin' : is_admin, 'email': username}))
+    if not login_enabled and not is_admin:
+        return jsonResponse({'data': 'login', 'result' : False, 'error' : 'Login disabled!'})
     return jsonResponse({'data' : 'login', 'result' : result, 'admin' : is_admin, 'email': username})
 
 @app.route('/search/<username>/<service>/<query>')
@@ -137,7 +139,6 @@ def getAllUsers():
     for i in range(len(users)):
         users[i] = (users[i][1:len(users[i])-1].replace("\"", "")).split(',')
         users[i][0] = keep_letters_until_space(users[i][0])
-        print(users[i])
         users[i][1] = False if users[i][1] == 'f' else True
         users[i][2] = 'Blocked' if users[i][2] == 't' else 'Active'
     return jsonResponse({'data' : 'getAllUsers', 'tableHead': ['Username', 'Privileges', 'Status'] ,'result' : users})
@@ -190,6 +191,26 @@ def changePrivilege():
     #         user[1] = not user[1]
     return jsonResponse({'data' : 'changePrivilege', 'result' : True})
 
+@app.route('/changeAdminSettings')
+def changeAdminSettings():
+    global login_enabled
+    global signup_enabled
+    data = request.args
+    if not ('loginEnabled' in data and 'signupEnabled' in data):
+        return jsonResponse({'data' : 'changeAdminSettings', 'result' : False})
+    login_value = data.get('loginEnabled')
+    signup_value = data.get('signupEnabled')
+    login_enabled = False if login_value == 'false' else True
+    signup_enabled = False if signup_value == 'false' else True
+    return jsonResponse({'data' : 'changeAdminSettings', 'result' : True})
+
+@app.route('/viewAdminSettings')
+def viewAdminSettings():
+    data = request.args
+    user = data.get('username')
+    if not user_manager.isAdmin(user):
+        return jsonResponse({'data' : 'viewAdminSettings', 'result' : False})
+    return jsonResponse({'data' : 'viewAdminSettings', 'result' : True, 'login_enabled' : login_enabled, 'signup_enabled' : signup_enabled})
 
 if __name__ == '__main__':
     # run app in debug mode on port 5000

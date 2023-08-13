@@ -14,6 +14,8 @@ class UserManager:
         return user_id[0]
 
     def authenticateUser(self, name, password):
+        if self.isBlocked(name) and not self.isAdmin(name):
+            return False
         user_password = self.db_manager.select('accounts', "username = '" + name + "'", 'password')
         #Lara - temporary add checking not empty list is returned 
         if user_password is not None and not(user_password == []):
