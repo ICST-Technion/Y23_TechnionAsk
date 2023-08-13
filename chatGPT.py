@@ -1,9 +1,6 @@
 import openai
 from NLPService import NLPService
 
-# OpenAI API credentials
-tmp = 'sk-nALIG6Z891FUu7n5w' + 'MYsT3BlbkFJKETagi' + 'SbibvwIHu8RMRc'
-
 
 def_context = "For the next question, i want you to provide links for the answers(URL sources), first provide the answer and then an empty line and then the word ' Sources:' and then the sources in a seperate new line\nUser:"
 def_question = "What was the exact date that the second world war occurred in?"
@@ -43,15 +40,3 @@ class ChatGPTService(NLPService):
         )
         returned_answer = response.choices[0].text.strip()
         return self.separate_answer_and_sources(returned_answer)
-
-# # Provide the context and question
-# #context = "The following is a conversation between a user and a language model.\n\nUser: What are the benefits of exercise?\nAI: Exercise has numerous benefits such as improving physical health, boosting mood, and increasing energy levels.\nUser: What types of exercises should I do?\nAI: The type of exercise you should do depends on your fitness goals. Some common types include cardio exercises like running or swimming, strength training exercises like weightlifting, and flexibility exercises like yoga.\nUser:"
-# context = "\nUser:"
-# question = "What was the exact date that the second world war occurred in?"
-
-
-# # Ask the question
-# answer = ask_question(question, context)
-
-# # Print the answer
-# print("AI:", answer)

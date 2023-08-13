@@ -1,12 +1,15 @@
 import psycopg2
+import configparser
 
 class DatabaseManager:
   def __init__(self): #add host name and credentials
-    self.host = "technionaskdb.cefqptmvyq28.us-east-1.rds.amazonaws.com"
-    self.database = 'TechnionAskIDB'
-    self.user = 'technionask'
-    self.password = 'Technionask2022'
-    self.port = '5432'
+    config = configparser.ConfigParser()
+    config.read('database.ini')
+    self.host = config['postgresql']['host']
+    self.database = config['postgresql']['database']
+    self.user = config['postgresql']['user']
+    self.password = config['postgresql']['password']
+    self.port = config['postgresql']['port']
     self.conn = None
 
   def connect(self):
@@ -93,10 +96,6 @@ class DatabaseManager:
       finally:
           # Close the cursor and connection
           cur.close()
-
-  def delete(self):
-      #TODO
-      pass
 
   def create_table(self, table_name, args_string):
       try:
