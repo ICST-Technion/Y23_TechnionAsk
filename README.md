@@ -24,9 +24,32 @@ TechnionAsk is a web-based application designed that leverages powerful Natural 
 ## Getting Started
 
 ### Prerequisites
+Before you begin, ensure you have met the following requirements:
 
+Docker: Docker Installation Guide
+Node.js: Node.js Installation Guide
+npm: npm Installation Guide
 
 ### Installation
+# Backend Setup
+1. API Key Configuration
+Replace the key in api_key.txt file in the backend directory with your ChatGPT search API key.
+
+2. PostgreSQL Database
+Edit database.ini file in the backend directory and configure it with your PostgreSQL connection information:
+
+3. Build and Run the Backend Docker Container
+Navigate to the backend directory and run the following commands:
+
+docker build -t backend-app .
+docker run -dp 0.0.0.0:65435:65435 backend-app
+
+#Frontend Setup
+1. Build and Run the Frontend Docker Container
+Navigate to the frontend directory and run the following commands:
+
+docker build -t frontend-app ./
+docker run -dp 0.0.0.0:19006:19006 frontend-app
 
 ### Usage
 
