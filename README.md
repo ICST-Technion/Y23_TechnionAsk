@@ -44,7 +44,7 @@ Navigate to the backend directory and run the following commands:
 docker build -t backend-app .
 docker run -dp 0.0.0.0:65435:65435 backend-app
 
-#Frontend Setup
+# Frontend Setup
 1. Build and Run the Frontend Docker Container
 Navigate to the frontend directory and run the following commands:
 
