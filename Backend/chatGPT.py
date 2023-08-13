@@ -13,6 +13,8 @@ class ChatGPTService(NLPService):
 
     def search_eng(self, userid, query):
         answer, sources = self.ask_question(query)
+        answer_with_sources = answer + ' - Sources:' + sources
+        self.history_manager.update_history(userid, query, answer_with_sources)
         answerResponse = {'data' : 'search', 'user' : userid, 'question' : query, 'answer' : answer, 'Sources' : sources}
         return self.jsonResponse(answerResponse)
 
