@@ -1,3 +1,7 @@
+<<<<<<< HEAD
+qa/__pycache__/
+.secrets/
+=======
 node_modules/
 .expo/
 dist/
@@ -12,3 +16,4 @@ web-build/
 
 # macOS
 .DS_Store
+>>>>>>> main
