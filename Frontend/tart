@@ -1,0 +1,189 @@
+[33mcommit a5253432f53d42031396a829945fc45861bee782[m[33m ([m[1;36mHEAD[m[33m)[m
+Author: EC2 Default User <ec2-user@ip-172-31-87-205.ec2.internal>
+Date:   Mon Jul 3 07:52:48 2023 +0000
+
+    Frontend: updating http response for Admin view
+
+[33mcommit 257841724ec830636ba3ea78e358bb1d4fd20ca8[m
+Author: EC2 Default User <ec2-user@ip-172-31-87-205.ec2.internal>
+Date:   Wed Jun 21 05:46:50 2023 +0000
+
+    Frontend:
+    - Fixing http request structure
+    - Changing backend port
+    - Dockerization
+
+[33mcommit 9a795db9b0bc69dd6830466499be0367c7ac1bb6[m
+Author: LaraKinan <lara.kinan13@gmail.com>
+Date:   Fri May 19 10:42:40 2023 +0300
+
+    Adding Admin View Page and Answer Service Choice
+
+[33mcommit b1d38ff6a16cc507b62f03e62c801d5ad9590ad9[m
+Author: LaraKinan <lara.kinan13@gmail.com>
+Date:   Mon May 1 09:56:55 2023 +0300
+
+    Fixing Alignment Bug
+    
+    Fixing dynamic alignment bug in constantly changing alignment field.
+
+[33mcommit 84ed0b6a4abc1d6281fc74b606a2d085f1c7b831[m
+Author: LaraKinan <lara.kinan13@gmail.com>
+Date:   Tue Apr 11 22:04:02 2023 +0300
+
+    Frontend Update
+    
+    - Fixing alignment of writing; so that when writing, the first letter of text determines 'right-to-left' or 'left-to-right' alignment.
+    - Add 'Settings Page'.
+    - Adding ability to ask for the bot you want (frontend implementation only, still need to implement it in the backend).
+    - Updating color scheme.
+
+[33mcommit 6e840285d3c3466f058604318e90df06beaaa719[m
+Author: LaraKinan <lara.kinan13@gmail.com>
+Date:   Wed Jan 25 00:20:11 2023 +0200
+
+    Frontend update
+    
+    Temporarily removing problematic element
+
+[33mcommit 8eae7cef319d55f1231bc5dcd6b6ea3ca36dfae4[m
+Author: LaraKinan <lara.kinan13@gmail.com>
+Date:   Tue Jan 24 19:31:47 2023 +0200
+
+    Frontend Update
+    
+    - Remove error alerts and replace with more user friendly messages
+    - Add animation while waiting for answers from NLP
+    - Changing chat send button
+    - Declaring borders for messages
+    - Adding Scroll down button in chat
+
+[33mcommit 6dee7ad9cf0ddacc7f12ade935f51dc4df73460f[m
+Author: LaraKinan <lara.kinan13@gmail.com>
+Date:   Sat Jan 21 20:46:09 2023 +0200
+
+    Resolving logo image
+    
+    Adding logo image to all files and proper resizing
+
+[33mcommit a0f9f75b67e1e807d957fa86fac0f842ac3c9b69[m
+Author: LaraKinan <lara.kinan13@gmail.com>
+Date:   Sat Jan 21 20:41:21 2023 +0200
+
+    Fixing Spelling mistake
+
+[33mcommit f2a42df1534ba2f077ca8f4aacf4c6194bffb437[m
+Author: LaraKinan <lara.kinan13@gmail.com>
+Date:   Sat Jan 21 20:39:26 2023 +0200
+
+    Resolving Logo image issue
+
+[33mcommit 1473f19d57581035f4f3cc9b09256d8737ecac04[m
+Author: LaraKinan <lara.kinan13@gmail.com>
+Date:   Fri Jan 20 18:14:59 2023 +0200
+
+    Fixing Search Answer
+    
+    Fixing the search answer message to reply to a question
+
+[33mcommit f4f05969cfb6d392ea006452233e049e95a5084d[m
+Author: alonoam34 <49162934+alonoam34@users.noreply.github.com>
+Date:   Fri Jan 20 12:16:32 2023 +0200
+
+    trnaslation done
+
+[33mcommit 77bb8d27652c7c0b7714952e1193a36b7c55c5bc[m
+Author: alonoam34 <49162934+alonoam34@users.noreply.github.com>
+Date:   Fri Jan 20 01:14:23 2023 +0200
+
+    translation
+
+[33mcommit a3c2de56cc1777358336cf3beb29b996168bbbb5[m
+Author: LaraKinan <lara.kinan13@gmail.com>
+Date:   Wed Jan 18 19:19:02 2023 +0200
+
+    Correcting login route
+
+[33mcommit f01ffa74bd1158105c463b0e64a609e25898f7be[m
+Author: LaraKinan <lara.kinan13@gmail.com>
+Date:   Wed Jan 18 19:00:01 2023 +0200
+
+    Search Chat
+    
+    Changing Search Page to a chat style of searching
+
+[33mcommit 8fcdd2ffd367582531f3bbfc88d683602556f519[m
+Author: LaraKinan <lara.kinan13@gmail.com>
+Date:   Tue Jan 10 19:40:35 2023 +0200
+
+    Updating Frontend
+    
+    Adding HTTP request communication with Backend for Login, Sign up and Search Queries.
+
+[33mcommit d8ab673d363e029d08fb9a948dd34b1387aba8f4[m
+Author: LaraKinan <lara.kinan13@gmail.com>
+Date:   Sun Dec 25 10:27:53 2022 +0200
+
+    Frontend Update
+    
+    Code organizing
+    Adding Sign up page
+    Adding Forgot password page
+    Adding Search History Page (Demonstration of sending data to other pages and parameter usage)
+
+[33mcommit 3f23aac22ffde07d1fb046d427abe267eaa63b66[m
+Author: LaraKinan <lara.kinan13@gmail.com>
+Date:   Wed Dec 14 19:57:23 2022 +0200
+
+    Update logo.png
+
+[33mcommit 14709c9f6904bb97662d3ec564ecc75e27288228[m
+Author: ariel <arielmataev96@gmail.com>
+Date:   Tue Dec 13 21:12:43 2022 +0200
+
+    Added hard-coded Q&A
+
+[33mcommit f299cc3dbc6660fdfcddcc0f2b9c1cb3d0cc4303[m
+Author: LaraKinan <lara.kinan13@gmail.com>
+Date:   Sun Dec 11 12:58:33 2022 +0200
+
+    Adding changed answers with button click feature
+    
+    Chooses answer from 'Yes', 'No' and 'Unsure' when 'Search' button is clicked.
+
+[33mcommit a384e1e2f2ab23196c8cc7608860b1ad1c3b01cd[m
+Author: ariel <arielmataev96@gmail.com>
+Date:   Fri Dec 9 21:37:18 2022 +0200
+
+    Home page
+    Fixes #37
+    
+    Added Search Page (Home Page)
+    Also login button from login page goes to search page.
+    Searching for an answer gives back the question.
+
+[33mcommit 654dcfc88fc0022abc6ba519e4bdb65103d863cd[m
+Author: alonoam34 <49162934+alonoam34@users.noreply.github.com>
+Date:   Fri Dec 9 16:14:28 2022 +0200
+
+    files run on vscode
+    
+    added necessary files and sign in button(without functionallity)
+
+[33mcommit 337c167525aa0327e6532bf3ef0db86b22b97c66[m
+Author: Malik Khalaf <malik_khalaf@apple.com>
+Date:   Thu Dec 8 22:41:15 2022 +0200
+
+    Initial commit: added the login page js file, and the temporary logo.
+
+[33mcommit 1a6f13b663a9b71720e8b2c77145085bf28a7843[m[33m ([m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m, [m[1;32mmain[m[33m)[m
+Author: Maroon Ayoub <maroon.ayoub@ibm.com>
+Date:   Sun Dec 4 15:34:28 2022 +0200
+
+    Update README.md
+
+[33mcommit 6311e2d1fafc48c6838ba7c36f9ceb1cc5dbdad7[m[33m ([m[1;31morigin/dev[m[33m)[m
+Author: Maroon Ayoub <maroon.ayoub@ibm.com>
+Date:   Fri Nov 11 14:07:08 2022 +0200
+
+    Initial commit
