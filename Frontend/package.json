@@ -26,7 +26,7 @@
     "react-csv": "^2.2.2",
     "react-dom": "18.1.0",
     "react-i18next": "^12.1.4",
-    "react-native": "0.70.8",
+    "react-native": "0.72.6",
     "react-native-drawer": "^2.5.1",
     "react-native-email": "^2.1.0",
     "react-native-gifted-chat": "^1.1.1",
